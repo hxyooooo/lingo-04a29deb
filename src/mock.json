@@ -1,0 +1,137 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "张三",
+      "email": "zhangsan@example.com",
+      "goal": "减脂",
+      "weight": 75,
+      "height": 175,
+      "age": 28
+    }
+  ],
+  "foods": [
+    {
+      "id": 1,
+      "name": "腊汁肉",
+      "calories": 320,
+      "protein": 20,
+      "carbs": 15,
+      "fat": 22,
+      "image": "/images/lazhirou.jpg",
+      "heritage": {
+        "title": "陕西腊汁肉制作技艺",
+        "origin": "源于战国时期，是陕西关中地区的传统美食",
+        "steps": [
+          "选用优质五花肉，切块焯水",
+          "加入秘制香料包慢炖3小时",
+          "保持小火，让肉质酥烂入味",
+          "切片装盘，配白吉馍食用"
+        ],
+        "category": "国家级非物质文化遗产"
+      }
+    },
+    {
+      "id": 2,
+      "name": "凉皮",
+      "calories": 120,
+      "protein": 4,
+      "carbs": 22,
+      "fat": 2,
+      "image": "/images/liangpi.jpg",
+      "heritage": {
+        "title": "陕西凉皮制作工艺",
+        "origin": "源于唐代，陕西关中特色小吃",
+        "steps": [
+          "高筋面粉加水和成面团",
+          "洗面筋后将面浆蒸制成皮",
+          "配以豆芽、黄瓜丝、蒜泥",
+          "淋上秘制辣椒油调味"
+        ],
+        "category": "省级非物质文化遗产"
+      }
+    },
+    {
+      "id": 3,
+      "name": "甑糕",
+      "calories": 280,
+      "protein": 6,
+      "carbs": 55,
+      "fat": 4,
+      "image": "/images/zenggao.jpg",
+      "heritage": {
+        "title": "陕西甑糕制作技艺",
+        "origin": "源于汉代，西安传统早点",
+        "steps": [
+          "糯米提前浸泡4小时",
+          "红枣去核备用",
+          "分层铺入甑锅蒸制6小时",
+          "出锅撒桂花糖即成"
+        ],
+        "category": "市级非物质文化遗产"
+      }
+    }
+  ],
+  "seasonalRecipes": [
+    {
+      "id": 1,
+      "season": "冬至",
+      "recipe": "低脂白菜饺子",
+      "ingredients": ["白菜", "瘦猪肉", "饺子皮"],
+      "instructions": ["白菜切碎挤水", "猪肉剁馅调味", "包成饺子水煮10分钟"],
+      "healthBenefit": "温补阳气，低脂健康",
+      "cultureNote": "源于汉代‘祛寒娇耳汤’，寓意团圆"
+    },
+    {
+      "id": 2,
+      "season": "清明",
+      "recipe": "凉拌菠菜",
+      "ingredients": ["菠菜", "芝麻", "蒜蓉"],
+      "instructions": ["菠菜焯水过凉", "调制蒜蓉芝麻酱", "拌匀装盘即可"],
+      "healthBenefit": "清热解毒，补铁养血",
+      "cultureNote": "清明时节宜食春菜，顺应自然"
+    },
+    {
+      "id": 3,
+      "season": "立夏",
+      "recipe": "绿豆汤",
+      "ingredients": ["绿豆", "冰糖", "薄荷叶"],
+      "instructions": ["绿豆提前浸泡2小时", "大火煮开转小火煮30分钟", "加入冰糖和薄荷叶"],
+      "healthBenefit": "清热解暑，利尿消肿",
+      "cultureNote": "立夏喝绿豆汤，清热解暑好"
+    }
+  ],
+  "ancientRecipes": [
+    {
+      "id": 1,
+      "name": "饺子古方",
+      "source": "《齐民要术》",
+      "summary": "古方‘祛寒娇耳汤’",
+      "modernRecipe": "白菜猪肉馅，水煮10分钟",
+      "illustration": "手绘饺子图"
+    },
+    {
+      "id": 2,
+      "name": "凉皮古法",
+      "source": "《食经》",
+      "summary": "唐代‘冷淘’工艺",
+      "modernRecipe": "面粉洗筋蒸皮，配黄瓜豆芽",
+      "illustration": "手绘凉皮图"
+    }
+  ],
+  "healthData": {
+    "dailyCalories": 1800,
+    "dailyProtein": 80,
+    "dailyCarbs": 200,
+    "dailyFat": 60,
+    "weeklyProgress": [
+      { "day": "周一", "calories": 1750, "weight": 75.2 },
+      { "day": "周二", "calories": 1680, "weight": 75.0 },
+      { "day": "周三", "calories": 1820, "weight": 74.9 },
+      { "day": "周四", "calories": 1700, "weight": 74.7 },
+      { "day": "周五", "calories": 1650, "weight": 74.5 },
+      { "day": "周六", "calories": 1780, "weight": 74.4 },
+      { "day": "周日", "calories": 1600, "weight": 74.2 }
+    ]
+  }
+}
