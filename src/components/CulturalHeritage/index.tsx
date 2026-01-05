@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BookOpen, Search, Heart, Star, Users, BookText } from 'lucide-react';
 import { getAllFoods } from '../../services/foodService';
 import { getAllAncientRecipes } from '../../services/ancientRecipeService';
