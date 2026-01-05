@@ -5,19 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true,
-    allowedHosts: true
-  },
-  define: {
-    global: 'globalThis',
-  },
-  resolve: {
-    alias: {
-      buffer: 'buffer',
-      stream: 'stream-browserify',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // 指向后端端口
+        changeOrigin: true,
+        secure: false,
+      }
     }
-  },
-  optimizeDeps: {
-    include: ['buffer', 'stream-browserify']
   }
 })
