@@ -8,11 +8,10 @@ app.use(express.json());
 
 // 数据库连接配置
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || 'password',
-  database: process.env.DB_NAME || 'ai_health_diet',
-  port: parseInt(process.env.DB_PORT || '3306'),
+  host: 'localhost',      // 因为代码和数据库都在这台 ECS 上，所以写 localhost
+  user: 'root',           // 账号
+  password: '123456',  // 刚才你在黑窗口里设置的密码
+  database: 'lingo_db'    // 数据库名
 };
 
 // 测试数据库连接
