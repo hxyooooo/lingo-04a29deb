@@ -7,5 +7,17 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: true
+  },
+  define: {
+    global: 'globalThis',
+  },
+  resolve: {
+    alias: {
+      buffer: 'buffer',
+      stream: 'stream-browserify',
+    }
+  },
+  optimizeDeps: {
+    include: ['buffer', 'stream-browserify']
   }
 })

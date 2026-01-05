@@ -15,7 +15,9 @@
     "lucide-react": "^0.400.0",
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.4",
-    "mysql2": "^3.6.0"
+    "mysql2": "^3.6.0",
+    "buffer": "^6.0.3",
+    "stream-browserify": "^3.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
@@ -26,6 +28,7 @@
     "vite": "^6.4.1",
     "typescript": "^5.0.0",
     "@types/node": "^20.0.0",
-    "@types/mysql": "^2.15.21"
+    "@types/mysql": "^2.15.21",
+    "@types/buffer": "^6.0.3"
   }
 }
