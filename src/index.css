@@ -4,20 +4,17 @@
 
 body {
   margin: 0;
-  padding: 0;
-  font-family: 'Noto Serif SC', 'Source Han Sans CN', 'PingFang SC', 'Microsoft YaHei', serif;
-  background-color: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-body[data-mode="ancient"] {
-  background-color: #FDF5E6;
-  font-family: 'Noto Serif SC', serif;
-}
-
-/* 滚动条样式 */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -25,90 +22,116 @@ body[data-mode="ancient"] {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c5c5c5;
-  border-radius: 3px;
+  background: #c1c1c1;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
 
-/* 按钮悬停效果 */
-.hover-lift {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* 卡片悬停效果 */
-.card-hover {
-  transition: all 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: scale(1.02);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-/* 渐变背景 */
-.gradient-bg {
-  background: linear-gradient(135deg, #177CB0 0%, #87CEEB 100%);
-}
-
-/* 传统元素装饰 */
+/* New Chinese Style Elements */
 .traditional-border {
-  border: 1px solid #D2691E;
-  border-radius: 8px;
+  border: 1px solid rgba(23, 124, 176, 0.2);
+  box-shadow: 0 4px 6px rgba(23, 124, 176, 0.05);
+  position: relative;
+  overflow: hidden;
 }
 
-.traditional-shadow {
-  box-shadow: 0 4px 20px rgba(210, 105, 30, 0.15);
+.traditional-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #177CB0, #5B8C5A, #F4A460);
+  z-index: 10;
 }
 
-/* 数字徽章动画 */
-@keyframes badgePop {
+/* Detection box for AI recognition */
+.detection-box {
+  position: absolute;
+  border: 2px solid #177CB0;
+  background: rgba(23, 124, 176, 0.2);
+  box-shadow: 0 0 10px rgba(23, 124, 176, 0.5);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(23, 124, 176, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(23, 124, 176, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(23, 124, 176, 0); }
+}
+
+/* Scan line animation */
+.scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #177CB0, transparent);
+  animation: scan 2s linear infinite;
+  z-index: 10;
+}
+
+@keyframes scan {
+  0% { top: 0; }
+  50% { top: calc(100% - 4px); }
+  100% { top: 0; }
+}
+
+/* Badge animation */
+.badge-pop {
+  animation: pop 0.5s ease-out;
+}
+
+@keyframes pop {
   0% { transform: scale(0.5); opacity: 0; }
   70% { transform: scale(1.1); }
   100% { transform: scale(1); opacity: 1; }
 }
 
-.badge-pop {
-  animation: badgePop 0.5s ease-out;
-}
-
-/* 实时扫描动效 */
-@keyframes scanLine {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
-.scan-line {
-  position: absolute;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, transparent, #F4A460, transparent);
-  animation: scanLine 2s infinite linear;
-}
-
-/* 古风模式样式 */
+/* Ancient style mode */
 .ancient-mode {
-  background-color: #FDF5E6;
-  color: #333333;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23177CB0' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.ancient-mode h1, .ancient-mode h2, .ancient-mode h3, .ancient-mode h4 {
-  font-family: 'Noto Serif SC', serif;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+/* Seasonal background effects */
+.seasonal-bg-winter {
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2, #80deea);
 }
 
-/* 检测框样式 */
-.detection-box {
-  position: absolute;
-  border: 2px solid #F4A460;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(244, 164, 96, 0.5);
+.seasonal-bg-spring {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9, #a5d6a7);
+}
+
+.seasonal-bg-summer {
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2, #ffcc80);
+}
+
+.seasonal-bg-autumn {
+  background: linear-gradient(135deg, #fff8e1, #ffecb3, #ffe082);
+}
+
+/* Floating elements animation */
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Glow effect for important elements */
+.glow {
+  box-shadow: 0 0 15px rgba(23, 124, 176, 0.4);
+}
+
+/* Smooth transitions */
+.transition-all-slow {
+  transition: all 0.4s ease;
 }

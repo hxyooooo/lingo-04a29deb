@@ -6,6 +6,7 @@ import SeasonalDiet from './components/SeasonalDiet';
 import CulturalHeritage from './components/CulturalHeritage';
 import HealthReport from './components/HealthReport';
 import Navbar from './components/Navbar';
+import AiAgent from './components/AiAgent';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,6 +23,7 @@ function App() {
           <Route path="/health-report" element={<HealthReport />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        <AiAgent />
       </div>
     </Router>
   );
