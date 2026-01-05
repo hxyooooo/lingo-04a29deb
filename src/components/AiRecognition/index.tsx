@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Upload, RotateCcw, Info, Award, AlertTriangle } from 'lucide-react';
-import mockData from '../../mock.json';
+import { getAllFoods, getFoodById } from '../../services/foodService';
 
 const AiRecognition: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -12,12 +12,26 @@ const AiRecognition: React.FC = () => {
   const [manualFoodName, setManualFoodName] = useState('');
   const [detectionBoxes, setDetectionBoxes] = useState<any[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [foods, setFoods] = useState<any[]>([]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // 初始化食物数据
+  useEffect(() => {
+    const fetchFoods = async () => {
+      try {
+        const foodsData = await getAllFoods();
+        setFoods(foodsData);
+      } catch (error) {
+        console.error('获取食物数据失败:', error);
+      }
+    };
+    fetchFoods();
+  }, []);
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         setSelectedImage(e.target?.result as string);
         setIsLoading(true);
         setConfidence(null);
@@ -37,23 +51,30 @@ const AiRecognition: React.FC = () => {
             ];
             setDetectionBoxes(boxes);
             
-            // 模拟识别完成
-            setTimeout(() => {
-              const randomFood = mockData.foods[Math.floor(Math.random() * mockData.foods.length)];
-              const finalConfidence = Math.floor(Math.random() * 20) + 80; // 80-99%
-              setConfidence(finalConfidence);
-              
-              // 如果置信度低于60%，显示手动输入选项
-              if (finalConfidence < 60) {
-                setShowManualInput(true);
+            // 模拟识别完成 - 从数据库中随机选择一个食物
+            setTimeout(async () => {
+              try {
+                if (foods.length > 0) {
+                  const randomFood = foods[Math.floor(Math.random() * foods.length)];
+                  const finalConfidence = Math.floor(Math.random() * 20) + 80; // 80-99%
+                  setConfidence(finalConfidence);
+                  
+                  // 如果置信度低于60%，显示手动输入选项
+                  if (finalConfidence < 60) {
+                    setShowManualInput(true);
+                    setIsLoading(false);
+                  } else {
+                    setRecognitionResult(randomFood);
+                    setIsLoading(false);
+                    
+                    // 显示数字徽章特效
+                    setShowBadge(true);
+                    setTimeout(() => setShowBadge(false), 2000);
+                  }
+                }
+              } catch (error) {
+                console.error('识别食物失败:', error);
                 setIsLoading(false);
-              } else {
-                setRecognitionResult(randomFood);
-                setIsLoading(false);
-                
-                // 显示数字徽章特效
-                setShowBadge(true);
-                setTimeout(() => setShowBadge(false), 2000);
               }
             }, 1000);
           }

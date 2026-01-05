@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Utensils, Heart, Sun, Moon, Wind, UtensilsCrossed, Coffee, Soup } from 'lucide-react';
-import mockData from '../../mock.json';
+import { getAllSeasonalRecipes, getSeasonalRecipeBySeason } from '../../services/seasonalRecipeService';
 
 const SeasonalDiet: React.FC = () => {
   const [selectedSeason, setSelectedSeason] = useState('冬至');
@@ -8,6 +8,20 @@ const SeasonalDiet: React.FC = () => {
   const [showTimeRecommendation, setShowTimeRecommendation] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isAncientMode, setIsAncientMode] = useState(false);
+  const [seasonalRecipes, setSeasonalRecipes] = useState<any[]>([]);
+
+  // 初始化节气食谱数据
+  useEffect(() => {
+    const fetchSeasonalRecipes = async () => {
+      try {
+        const recipes = await getAllSeasonalRecipes();
+        setSeasonalRecipes(recipes);
+      } catch (error) {
+        console.error('获取节气食谱数据失败:', error);
+      }
+    };
+    fetchSeasonalRecipes();
+  }, []);
 
   // 模拟时间感知，判断是否为节气日
   useEffect(() => {
@@ -18,7 +32,7 @@ const SeasonalDiet: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const currentSeason = mockData.seasonalRecipes.find(recipe => recipe.season === selectedSeason);
+  const currentSeason = seasonalRecipes.find(recipe => recipe.season === selectedSeason);
 
   const seasons = [
     { name: '冬至', icon: Sun, color: 'text-red-500' },

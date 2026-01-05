@@ -1,19 +1,39 @@
 import React, { useState } from 'react';
 import { BookOpen, Search, Heart, Star, Users, BookText } from 'lucide-react';
-import mockData from '../../mock.json';
+import { getAllFoods } from '../../services/foodService';
+import { getAllAncientRecipes } from '../../services/ancientRecipeService';
 
 const CulturalHeritage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('heritage');
   const [isAncientMode, setIsAncientMode] = useState(false);
   const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
+  const [foods, setFoods] = useState<any[]>([]);
+  const [ancientRecipes, setAncientRecipes] = useState<any[]>([]);
 
-  const filteredFoods = mockData.foods.filter(food =>
+  // 初始化数据
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [foodsData, ancientRecipesData] = await Promise.all([
+          getAllFoods(),
+          getAllAncientRecipes()
+        ]);
+        setFoods(foodsData);
+        setAncientRecipes(ancientRecipesData);
+      } catch (error) {
+        console.error('获取文化传承数据失败:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const filteredFoods = foods.filter(food =>
     food.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     food.heritage.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredAncientRecipes = mockData.ancientRecipes.filter(recipe =>
+  const filteredAncientRecipes = ancientRecipes.filter(recipe =>
     recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     recipe.source.toLowerCase().includes(searchTerm.toLowerCase())
   );

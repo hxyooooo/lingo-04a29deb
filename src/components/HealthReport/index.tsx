@@ -1,16 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Activity, TrendingUp, Calendar, Target, BarChart3, PieChart } from 'lucide-react';
-import mockData from '../../mock.json';
+import { getHealthDataByUserId } from '../../services/healthDataService';
 
 const HealthReport: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('week');
   const [activeTab, setActiveTab] = useState('overview');
+  const [healthData, setHealthData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const { dailyCalories, dailyProtein, dailyCarbs, dailyFat, weeklyProgress } = mockData.healthData;
+  // 模拟用户ID，实际应用中应从登录状态获取
+  const userId = 1;
+
+  useEffect(() => {
+    const fetchHealthData = async () => {
+      try {
+        const data = await getHealthDataByUserId(userId);
+        setHealthData(data);
+      } catch (error) {
+        console.error('获取健康数据失败:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchHealthData();
+  }, [userId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-qianqing-blue to-white py-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-qinghua-blue mx-auto mb-4"></div>
+          <p className="text-gray-600">正在加载健康报告...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!healthData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-qianqing-blue to-white py-8 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">暂无健康数据</p>
+        </div>
+      </div>
+    );
+  }
+
+  const { dailyCalories, dailyProtein, dailyCarbs, dailyFat, weeklyProgress } = healthData;
 
   // 计算统计数据
   const avgDailyCalories = weeklyProgress.reduce((sum, day) => sum + day.calories, 0) / weeklyProgress.length;
-  const weightChange = weeklyProgress[0].weight - weeklyProgress[weeklyProgress.length - 1].weight;
+  const weightChange = weeklyProgress[0]?.weight - weeklyProgress[weeklyProgress.length - 1]?.weight || 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-qianqing-blue to-white py-8">
