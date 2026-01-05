@@ -13,22 +13,22 @@
 │   │   ├── Home/
 │   │   │   └── index.tsx                 # 首页组件
 │   │   ├── AiRecognition/
-│   │   │   └── index.tsx                 # AI识食组件
+│   │   │   └── index.tsx                 # AI识食组件 - 实现了AI实时扫描动效、数字徽章特效、智能纠错功能
 │   │   ├── SeasonalDiet/
-│   │   │   └── index.tsx                 # 节气饮食组件
+│   │   │   └── index.tsx                 # 节气饮食组件 - 实现了动态节气感知、时间轴建议、古风模式
 │   │   ├── CulturalHeritage/
-│   │   │   └── index.tsx                 # 文化传承组件
+│   │   │   └── index.tsx                 # 文化传承组件 - 实现了古风模式、古称对照功能
 │   │   └── HealthReport/
 │   │       └── index.tsx                 # 健康报告组件
 │   ├── App.tsx                           # 主应用组件
 │   ├── main.tsx                          # 应用入口
-│   ├── index.css                         # 全局样式
+│   ├── index.css                         # 全局样式 - 包含新中式设计、古风模式、扫描动效等样式
 │   └── mock.json                         # 模拟数据
 ├── package.json                          # 项目依赖配置
 ├── vite.config.ts                        # Vite构建配置
 ├── tsconfig.json                         # TypeScript配置
 ├── tsconfig.node.json                    # TypeScript节点配置
-├── tailwind.config.js                    # Tailwind样式配置
+├── tailwind.config.js                    # Tailwind样式配置 - 更新了色彩系统
 ├── postcss.config.js                     # PostCSS配置
 └── index.html                            # HTML入口
 ```
@@ -45,7 +45,7 @@
 TypeScript编译配置文件，定义了项目的编译选项和模块解析规则。
 
 ### tailwind.config.js
-Tailwind CSS配置文件，定义了项目使用的自定义颜色主题，包括浅青花蓝、淡赭石色、浅松绿等陕西文化特色色彩。
+Tailwind CSS配置文件，定义了项目使用的自定义颜色主题，包括青花蓝、汝窑天青、糖色等新中式设计色彩体系。
 
 ### postcss.config.js
 PostCSS配置文件，集成Tailwind CSS和Autoprefixer插件。
@@ -57,7 +57,7 @@ HTML入口文件，包含应用的根节点和脚本引用。
 React应用入口文件，渲染App组件到DOM。
 
 ### src/index.css
-全局样式文件，包含Tailwind指令和自定义样式，如滚动条、悬停效果等。
+全局样式文件，包含Tailwind指令和自定义样式，如滚动条、悬停效果、新中式设计、古风模式、扫描动效等。
 
 ### src/App.tsx
 主应用组件，配置路由系统，包含导航栏和各页面路由。
@@ -69,16 +69,16 @@ React应用入口文件，渲染App组件到DOM。
 导航栏组件，包含应用标题、导航链接和登录/退出功能，适配移动端和桌面端。
 
 ### src/components/Home/index.tsx
-首页组件，展示应用的核心功能、统计数据和文化传承理念，使用Framer Motion动画效果。
+首页组件，展示应用的核心功能、统计数据和文化传承理念，使用Framer Motion动画效果，包含节气浮窗提示。
 
 ### src/components/AiRecognition/index.tsx
-AI识食组件，提供图片上传、菜品识别、营养信息展示和非遗文化背景介绍功能。
+AI识食组件，提供图片上传、AI实时扫描动效（显示识别置信度）、数字徽章特效、营养信息展示和非遗文化背景介绍功能，新增AI智能纠错与共创功能。
 
 ### src/components/SeasonalDiet/index.tsx
-节气饮食组件，提供节气选择、健康目标设置、传统食谱推荐和养生知识展示。
+节气饮食组件，提供节气选择、健康目标设置、传统食谱推荐和养生知识展示，实现首页动态感知时间、节气主题背景变换、三餐时间轴建议、古风模式等功能。
 
 ### src/components/CulturalHeritage/index.tsx
-文化传承组件，提供非遗技艺和古方食谱的搜索、浏览功能，包含标签切换和详细内容展示。
+文化传承组件，提供非遗技艺和古方食谱的搜索、浏览功能，包含标签切换和详细内容展示，新增"古今对话"沉浸模式和古称对照功能。
 
 ### src/components/HealthReport/index.tsx
 健康报告组件，展示热量摄入趋势、营养分析、目标完成情况和AI健康建议。

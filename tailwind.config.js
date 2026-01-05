@@ -7,7 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'qinghua-blue': '#4A90E2',
+        'qinghua-blue': '#177CB0',      // 青花蓝 - 主色
+        'ruyao-tianqing': '#E6F4F1',    // 汝窑天青 - 辅助色
+        'tangse-amber': '#F4A460',      // 糖色 - 强调色
+        'ink-grey': '#333333',          // 墨灰 - 正文色
         'qianqing-blue': '#87CEEB',
         'danhe-color': '#D2691E',
         'qiansong-green': '#98FB98',

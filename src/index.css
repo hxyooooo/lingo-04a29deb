@@ -5,8 +5,13 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Source Han Sans CN', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Noto Serif SC', 'Source Han Sans CN', 'PingFang SC', 'Microsoft YaHei', serif;
   background-color: #f8fafc;
+}
+
+body[data-mode="ancient"] {
+  background-color: #FDF5E6;
+  font-family: 'Noto Serif SC', serif;
 }
 
 /* 滚动条样式 */
@@ -50,7 +55,7 @@ body {
 
 /* 渐变背景 */
 .gradient-bg {
-  background: linear-gradient(135deg, #4A90E2 0%, #87CEEB 100%);
+  background: linear-gradient(135deg, #177CB0 0%, #87CEEB 100%);
 }
 
 /* 传统元素装饰 */
@@ -61,4 +66,49 @@ body {
 
 .traditional-shadow {
   box-shadow: 0 4px 20px rgba(210, 105, 30, 0.15);
+}
+
+/* 数字徽章动画 */
+@keyframes badgePop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.badge-pop {
+  animation: badgePop 0.5s ease-out;
+}
+
+/* 实时扫描动效 */
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scan-line {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, transparent, #F4A460, transparent);
+  animation: scanLine 2s infinite linear;
+}
+
+/* 古风模式样式 */
+.ancient-mode {
+  background-color: #FDF5E6;
+  color: #333333;
+}
+
+.ancient-mode h1, .ancient-mode h2, .ancient-mode h3, .ancient-mode h4 {
+  font-family: 'Noto Serif SC', serif;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* 检测框样式 */
+.detection-box {
+  position: absolute;
+  border: 2px solid #F4A460;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(244, 164, 96, 0.5);
 }
