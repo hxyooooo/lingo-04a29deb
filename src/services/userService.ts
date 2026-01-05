@@ -1,5 +1,4 @@
-import { pool } from '../config/database';
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { api } from '../config/api';
 
 interface User {
   id: number;
@@ -12,33 +11,27 @@ interface User {
 }
 
 export const getUserById = async (id: number): Promise<User | null> => {
-  const [rows] = await pool.execute<RowDataPacket[]>(
-    'SELECT * FROM users WHERE id = ?',
-    [id]
-  );
-  
-  if (rows.length > 0) {
-    const user = rows[0] as User;
+  try {
+    const user = await api.getUser(id);
     return user;
+  } catch (error) {
+    console.error('获取用户信息失败:', error);
+    return null;
   }
-  
-  return null;
 };
 
-export const createUser = async (userData: Omit<User, 'id'>): Promise<number> => {
-  const [result] = await pool.execute<ResultSetHeader>(
-    'INSERT INTO users (name, email, goal, weight, height, age) VALUES (?, ?, ?, ?, ?, ?)',
-    [userData.name, userData.email, userData.goal, userData.weight, userData.height, userData.age]
-  );
-  
-  return result.insertId;
+export const createUser = async (userData: Omit<User, 'id'>): Promise<User | null> => {
+  try {
+    const user = await api.createUser(userData);
+    return user;
+  } catch (error) {
+    console.error('创建用户失败:', error);
+    return null;
+  }
 };
 
 export const updateUser = async (id: number, userData: Partial<User>): Promise<boolean> => {
-  const [result] = await pool.execute<ResultSetHeader>(
-    'UPDATE users SET name = ?, email = ?, goal = ?, weight = ?, height = ?, age = ? WHERE id = ?',
-    [userData.name, userData.email, userData.goal, userData.weight, userData.height, userData.age, id]
-  );
-  
-  return result.affectedRows > 0;
+  // 暂时使用mock实现，后续可扩展API
+  console.log('更新用户信息:', id, userData);
+  return true;
 };

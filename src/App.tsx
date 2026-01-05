@@ -7,38 +7,25 @@ import CulturalHeritage from './components/CulturalHeritage';
 import HealthReport from './components/HealthReport';
 import Navbar from './components/Navbar';
 import AiAgent from './components/AiAgent';
-import { testConnection, initializeDatabase } from './config/database';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [dbInitialized, setDbInitialized] = useState(false);
 
-  // 初始化数据库连接
+  // 检查后端连接状态
   useEffect(() => {
-    const initDatabase = async () => {
+    const checkBackendConnection = async () => {
       try {
-        await testConnection();
-        await initializeDatabase();
-        setDbInitialized(true);
-        console.log('数据库初始化完成');
+        const response = await fetch('http://localhost:3001/api/users/1');
+        if (!response.ok) {
+          console.warn('后端服务未启动，请运行: npm run server');
+        }
       } catch (error) {
-        console.error('数据库初始化失败:', error);
+        console.warn('后端服务未启动，请运行: npm run server');
       }
     };
 
-    initDatabase();
+    checkBackendConnection();
   }, []);
-
-  if (!dbInitialized) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-qianqing-blue to-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-qinghua-blue mx-auto mb-4"></div>
-          <p className="text-gray-600">正在初始化数据库...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <Router>

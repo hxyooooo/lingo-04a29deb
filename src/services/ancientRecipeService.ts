@@ -1,5 +1,4 @@
-import { pool } from '../config/database';
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { api } from '../config/api';
 
 interface AncientRecipe {
   id: number;
@@ -11,47 +10,31 @@ interface AncientRecipe {
 }
 
 export const getAllAncientRecipes = async (): Promise<AncientRecipe[]> => {
-  const [rows] = await pool.execute<RowDataPacket[]>(
-    'SELECT * FROM ancient_recipes ORDER BY id'
-  );
-  
-  return rows.map(row => ({
-    id: row.id,
-    name: row.name,
-    source: row.source,
-    summary: row.summary,
-    modernRecipe: row.modern_recipe,
-    illustration: row.illustration
-  }));
+  try {
+    const recipes = await api.getAncientRecipes();
+    return recipes;
+  } catch (error) {
+    console.error('获取古方食谱失败:', error);
+    return [];
+  }
 };
 
 export const getAncientRecipeById = async (id: number): Promise<AncientRecipe | null> => {
-  const [rows] = await pool.execute<RowDataPacket[]>(
-    'SELECT * FROM ancient_recipes WHERE id = ?',
-    [id]
-  );
-  
-  if (rows.length > 0) {
-    const row = rows[0];
-    return {
-      id: row.id,
-      name: row.name,
-      source: row.source,
-      summary: row.summary,
-      modernRecipe: row.modern_recipe,
-      illustration: row.illustration
-    };
+  try {
+    const recipe = await api.getAncientRecipeById(id);
+    return recipe;
+  } catch (error) {
+    console.error('获取古方食谱失败:', error);
+    return null;
   }
-  
-  return null;
 };
 
-export const createAncientRecipe = async (recipeData: Omit<AncientRecipe, 'id'>): Promise<number> => {
-  const [result] = await pool.execute<ResultSetHeader>(
-    `INSERT INTO ancient_recipes (name, source, summary, modern_recipe, illustration) 
-     VALUES (?, ?, ?, ?, ?)`,
-    [recipeData.name, recipeData.source, recipeData.summary, recipeData.modernRecipe, recipeData.illustration]
-  );
-  
-  return result.insertId;
+export const createAncientRecipe = async (recipeData: Omit<AncientRecipe, 'id'>): Promise<number | null> => {
+  try {
+    const recipe = await api.createAncientRecipe(recipeData);
+    return recipe.id;
+  } catch (error) {
+    console.error('创建古方食谱失败:', error);
+    return null;
+  }
 };

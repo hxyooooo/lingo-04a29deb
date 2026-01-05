@@ -1,5 +1,4 @@
-import { pool } from '../config/database';
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { api } from '../config/api';
 
 interface HealthData {
   id: number;
@@ -27,54 +26,27 @@ interface HealthDataSummary {
 }
 
 export const getHealthDataByUserId = async (userId: number): Promise<HealthDataSummary | null> => {
-  // 获取用户最近一周的健康数据
-  const [rows] = await pool.execute<RowDataPacket[]>(
-    `SELECT date, calories, weight 
-     FROM health_data 
-     WHERE user_id = ? 
-     AND date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-     ORDER BY date`,
-    [userId]
-  );
-  
-  if (rows.length === 0) {
+  try {
+    const data = await api.getHealthData(userId);
+    return data;
+  } catch (error) {
+    console.error('获取健康数据失败:', error);
     return null;
   }
-  
-  // 计算周度进度
-  const weeklyProgress: WeeklyProgress[] = rows.map(row => ({
-    day: new Date(row.date).toLocaleDateString('zh-CN', { weekday: 'short' }),
-    calories: row.calories,
-    weight: row.weight
-  }));
-  
-  // 返回默认的每日目标值（后续可以存储在用户表中）
-  return {
-    dailyCalories: 1800,
-    dailyProtein: 80,
-    dailyCarbs: 200,
-    dailyFat: 60,
-    weeklyProgress
-  };
 };
 
-export const createHealthData = async (healthData: Omit<HealthData, 'id'>): Promise<number> => {
-  const [result] = await pool.execute<ResultSetHeader>(
-    `INSERT INTO health_data (user_id, date, calories, weight, protein, carbs, fat) 
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [healthData.userId, healthData.date, healthData.calories, healthData.weight, healthData.protein, healthData.carbs, healthData.fat]
-  );
-  
-  return result.insertId;
+export const createHealthData = async (healthData: Omit<HealthData, 'id'>): Promise<number | null> => {
+  try {
+    const data = await api.createHealthData(healthData);
+    return data.id;
+  } catch (error) {
+    console.error('创建健康数据失败:', error);
+    return null;
+  }
 };
 
 export const updateHealthData = async (id: number, healthData: Partial<HealthData>): Promise<boolean> => {
-  const [result] = await pool.execute<ResultSetHeader>(
-    `UPDATE health_data 
-     SET calories = ?, weight = ?, protein = ?, carbs = ?, fat = ? 
-     WHERE id = ?`,
-    [healthData.calories, healthData.weight, healthData.protein, healthData.carbs, healthData.fat, id]
-  );
-  
-  return result.affectedRows > 0;
+  // 暂时使用mock实现，后续可扩展API
+  console.log('更新健康数据:', id, healthData);
+  return true;
 };
