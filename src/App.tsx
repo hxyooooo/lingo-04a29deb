@@ -262,59 +262,87 @@ const CultureView = () => {
 function App() {
   const [activePage, setActivePage] = useState('home');
 
-  const getNavLinkStyle = (page) => ({
-    color: 'white',
+  const getNavItemStyle = (page) => ({
+    color: '#333',
     textDecoration: 'none',
     fontSize: '16px',
-    padding: '0 15px',
+    padding: '12px 20px',
     cursor: 'pointer',
-    opacity: activePage === page ? 1 : 0.7,
     fontWeight: activePage === page ? 'bold' : 'normal',
-    borderBottom: activePage === page ? '2px solid white' : 'none',
-    paddingBottom: '5px'
+    backgroundColor: activePage === page ? '#e6f7ff' : 'transparent',
+    borderRadius: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
   });
 
   return (
-    <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#eef7fc', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex' }}>
       
-      {/* 顶部导航 - 修改后的布局 */}
-      <header style={{ background: '#1890ff', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-        {/* 左侧标题 */}
-        <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}>
-          <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '30px', height: '30px', borderRadius: '50%', textAlign: 'center', lineHeight: '30px', fontSize: '18px' }}>食</span>
-          AI健康饮食 · 陕西文化
+      {/* 左侧导航栏 */}
+      <div style={{ width: '220px', background: 'white', boxShadow: '2px 0 8px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
+        {/* 顶部标题 */}
+        <div style={{ padding: '20px', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{ fontSize: '20px', color: '#1890ff' }}>🍃</span>
+          <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#333' }}>营养师后台管理系统</span>
         </div>
         
-        {/* 中间导航 */}
-        <nav style={{ display: 'flex', gap: '10px' }}>
-          <div style={getNavLinkStyle('home')} onClick={() => setActivePage('home')}>🏠 首页</div>
-          <div style={getNavLinkStyle('recognition')} onClick={() => setActivePage('recognition')}>📷 AI识食</div>
-          <div style={getNavLinkStyle('season')} onClick={() => setActivePage('season')}>📅 节气饮食</div>
-          <div style={getNavLinkStyle('culture')} onClick={() => setActivePage('culture')}>📖 文化传承</div>
-          <div style={getNavLinkStyle('report')} onClick={() => alert('健康报告模块正在开发中...')}>📈 健康报告</div>
+        {/* 搜索框 */}
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #eee' }}>
+          <div style={{ display: 'flex', alignItems: 'center', background: '#f5f5f5', borderRadius: '6px', padding: '8px 12px' }}>
+            <span style={{ color: '#999', marginRight: '8px' }}>🔍</span>
+            <input type="text" placeholder="搜索..." style={{ border: 'none', background: 'transparent', outline: 'none', width: '100%' }} />
+          </div>
+        </div>
+        
+        {/* 导航菜单 */}
+        <nav style={{ padding: '16px 0', flex: 1 }}>
+          {[
+            { icon: '🏠', label: '仪表盘', page: 'home' },
+            { icon: '👥', label: '用户管理', page: 'users' },
+            { icon: '🍎', label: '食物数据库', page: 'food' },
+            { icon: '🍽️', label: '食谱管理', page: 'recipes' },
+            { icon: '📝', label: '饮食记录', page: 'records' },
+            { icon: '📊', label: '营养分析', page: 'analysis' },
+            { icon: '⚙️', label: '系统设置', page: 'settings' }
+          ].map((item, idx) => (
+            <div key={idx} onClick={() => setActivePage(item.page)} style={getNavItemStyle(item.page)}>
+              <span>{item.icon}</span>
+              <span>{item.label}</span>
+            </div>
+          ))}
         </nav>
-        
-        {/* 右侧登录按钮 */}
-        <div>
-          <button style={{ background: 'white', color: '#1890ff', border: 'none', padding: '6px 20px', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>登录</button>
-        </div>
-      </header>
-
-      {/* 主体内容 */}
-      <main style={{ flex: 1 }}>
-        {activePage === 'home' && <HomeView toPage={setActivePage} />}
-        {activePage === 'recognition' && <RecognitionView />}
-        {activePage === 'season' && <SeasonalView />}
-        {activePage === 'culture' && <CultureView />}
-      </main>
-
-      {/* AI助手悬浮按钮 */}
-      <div style={{ position: 'fixed', bottom: '30px', right: '30px', background: '#3CA9C4', color: 'white', padding: '10px 20px', borderRadius: '30px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', zIndex: 100, fontWeight: 'bold' }}>
-        <span>✨</span> AI助手
       </div>
-    </div>
-  );
-}
 
-export default App;
+      {/* 右侧主内容区域 */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* 顶部导航栏 */}
+        <header style={{ background: '#1890ff', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
+            <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '30px', height: '30px', borderRadius: '50%', textAlign: 'center', lineHeight: '30px', fontSize: '18px' }}>食</span>
+            AI健康饮食 · 陕西文化
+          </div>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div style={{ position: 'relative' }}>
+              <span style={{ color: 'white', fontSize: '20px', cursor: 'pointer' }}>🔔</span>
+              <span style={{ position: 'absolute', top: '-8px', right: '-8px', background: '#ff4d4f', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>3</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'white', cursor: 'pointer' }}>
+              <img src="https://img95.699pic.com/photo/50046/5569.jpg_wh860.jpg" alt="管理员" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+              <span>管理员</span>
+              <span>▼</span>
+            </div>
+          </div>
+        </header>
 
+        {/* 主体内容 */}
+        <main style={{ flex: 1, padding: '24px' }}>
+          {activePage === 'home' && <HomeView toPage={setActivePage} />}
+          {activePage === 'recognition' && <RecognitionView />}
+          {activePage === 'season' && <SeasonalView />}
+          {activePage === 'culture' && <CultureView />}
+          {activePage === 'users' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '#666' }}>用户管理页面</div>}
+          {activePage === 'food' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '#666' }}>食物数据库页面</div>}
+          {activePage === 'recipes' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '#666' }}>食谱管理页面</div>}
+          {activePage === 'records' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '
