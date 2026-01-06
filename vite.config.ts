@@ -20,4 +20,8 @@ export default defineConfig({
   optimizeDeps: {
     include: ['buffer', 'stream-browserify']
   }
+	server: {
+    host: '0.0.0.0', // 这一行是解决阿里云访问不了的关键
+    port: 5173,      // 端口号
+  }
 })
