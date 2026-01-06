@@ -114,60 +114,32 @@ const HomeView = ({ toPage }) => (
   </div>
 );
 
-// --- AI识食 (核心升级功能) ---
-const RecognitionView = () => {
+// --- AI识食 (核心功能) ---
+// 接收 onAdd 属性，用于向父组件传递数据
+const RecognitionView = ({ onAdd }) => {
   const [imgPreview, setImgPreview] = useState(null);
   const [status, setStatus] = useState('idle'); // idle, loading, success, error
   const [result, setResult] = useState(null);
   const fileInputRef = useRef(null);
 
-  // 模拟 AI 识别数据库
   const mockDatabase = [
-    {
-      name: '腊汁肉夹馍',
-      calories: 455,
-      unit: '个/250g',
-      intro: '陕西省非物质文化遗产，源于秦代，被誉为“中式汉堡”。皮薄松脆，气虚者适宜。',
-      recipe: '1. 五花肉切块焯水。2. 放入老卤汤炖煮2小时至软烂。3. 面粉发酵制作白吉馍。4. 烤制馍皮酥脆，剁碎肉浇汁夹入即可。'
-    },
-    {
-      name: '羊肉泡馍',
-      calories: 560,
-      unit: '碗/400g',
-      intro: '北宋著名诗人苏轼留有“陇馔有熊腊，秦烹唯羊羹”的诗句。料重味醇，肉烂汤浓。',
-      recipe: '1. 羊骨慢火熬汤6小时。2. 死面烙饼，掰成黄豆大小。3. 汤中加入饼碎、粉丝、木耳煮沸。4. 配以糖蒜、辣酱食用。'
-    },
-    {
-      name: '秦镇米皮',
-      calories: 280,
-      unit: '份/300g',
-      intro: '陕西户县秦镇传统名吃，色白、光润、皮薄、细软、筋道，酸辣味浓。',
-      recipe: '1. 大米浸泡磨浆。2. 上笼蒸制成薄皮。3. 切条，加入醋、辣椒油、豆芽、黄瓜丝等调料拌匀。'
-    }
+    { name: '腊汁肉夹馍', calories: 455, unit: '个', intro: '陕西省非物质文化遗产，中式汉堡。', recipe: '老卤炖煮五花肉，白吉馍烤制酥脆。' },
+    { name: '羊肉泡馍', calories: 560, unit: '碗', intro: '苏轼赞誉“秦烹唯羊羹”。', recipe: '羊骨熬汤，死面烙饼，配糖蒜辣酱。' },
+    { name: '秦镇米皮', calories: 280, unit: '份', intro: '色白光润，皮薄筋道，酸辣味浓。', recipe: '大米磨浆蒸制，切条拌入秘制调料。' }
   ];
 
-  // 触发文件选择
-  const handleBtnClick = () => {
-    fileInputRef.current.click();
-  };
+  const handleBtnClick = () => fileInputRef.current.click();
 
-  // 处理文件上传与模拟AI识别
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // 1. 本地预览
       const reader = new FileReader();
       reader.onloadend = () => {
         setImgPreview(reader.result);
         setStatus('loading');
-        
-        // 2. 模拟 AI 识别过程 (1.5秒延迟)
         setTimeout(() => {
-          // 随机模拟：80% 几率识别成功，20% 几率识别失败
-          const isSuccess = Math.random() > 0.2;
-          
+          const isSuccess = Math.random() > 0.1; // 90% 成功率
           if (isSuccess) {
-            // 随机取一个菜品
             const randomDish = mockDatabase[Math.floor(Math.random() * mockDatabase.length)];
             setResult(randomDish);
             setStatus('success');
@@ -181,7 +153,9 @@ const RecognitionView = () => {
   };
 
   const handleAddToDiet = () => {
-    alert(`已将【${result.name}】加入今日饮食清单！\n热量：+${result.calories} kcal`);
+    // 调用父组件传入的方法
+    onAdd(result);
+    alert(`成功！已将【${result.name}】加入个人中心的饮食清单。`);
   };
 
   return (
@@ -189,43 +163,18 @@ const RecognitionView = () => {
       <h1 style={{ color: '#333', fontSize: '28px', marginBottom: '10px' }}>AI非遗菜品识别</h1>
       <p style={{ color: '#666', marginBottom: '30px' }}>上传图片，AI自动分析营养成分与文化背景</p>
 
-      {/* 隐藏的文件输入框 */}
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        onChange={handleFileChange} 
-        accept="image/*" 
-        style={{ display: 'none' }} 
-      />
+      <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: 'none' }} />
 
       <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        
-        {/* 左侧：上传区 */}
         <div style={{ flex: 1, minWidth: '300px' }}>
-          <div 
-            onClick={status === 'loading' ? null : handleBtnClick}
-            style={{ 
-              background: 'white', 
-              borderRadius: '16px', 
-              boxShadow: '0 4px 20px rgba(0,0,0,0.05)', 
-              height: '350px', 
-              display: 'flex', 
-              flexDirection: 'column', 
-              justifyContent: 'center', 
-              alignItems: 'center', 
-              border: '2px dashed #d9d9d9',
-              cursor: status === 'loading' ? 'wait' : 'pointer',
-              overflow: 'hidden',
-              position: 'relative'
-            }}
-          >
+          <div onClick={status === 'loading' ? null : handleBtnClick} style={{ background: 'white', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', height: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', border: '2px dashed #d9d9d9', cursor: status === 'loading' ? 'wait' : 'pointer', overflow: 'hidden', position: 'relative' }}>
             {imgPreview ? (
               <>
                 <img src={imgPreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 {status === 'loading' && (
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
                     <div style={{ fontSize: '30px', marginBottom: '10px' }}>🤖</div>
-                    <div style={{ color: '#1890ff', fontWeight: 'bold' }}>AI 正在识别中...</div>
+                    <div style={{ color: '#1890ff', fontWeight: 'bold' }}>AI 正在分析...</div>
                   </div>
                 )}
               </>
@@ -236,26 +185,18 @@ const RecognitionView = () => {
               </>
             )}
           </div>
-          
           <div style={{ marginTop: '20px' }}>
-             <button onClick={handleBtnClick} style={{ padding: '12px 30px', background: '#1890ff', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(24,144,255,0.3)' }}>
-               {imgPreview ? '🔄 重新上传' : '📤 上传图片'}
-             </button>
+             <button onClick={handleBtnClick} style={{ padding: '12px 30px', background: '#1890ff', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(24,144,255,0.3)' }}>{imgPreview ? '🔄 重新上传' : '📤 上传图片'}</button>
           </div>
         </div>
 
-        {/* 右侧：结果区 */}
         <div style={{ flex: 1, minWidth: '300px', textAlign: 'left' }}>
-          
-          {/* 状态：初始空闲 */}
           {status === 'idle' && (
              <div style={{ background: 'white', padding: '40px', borderRadius: '16px', height: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: '#999', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
                <div style={{ fontSize: '40px', marginBottom: '20px', opacity: 0.5 }}>📊</div>
                <div>请上传图片，右侧将显示分析结果</div>
              </div>
           )}
-
-          {/* 状态：识别成功 */}
           {status === 'success' && result && (
             <div style={{ background: 'white', padding: '30px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '20px' }}>
@@ -268,29 +209,19 @@ const RecognitionView = () => {
                    <div style={{ fontSize: '12px', color: '#999' }}>kcal / {result.unit}</div>
                  </div>
                </div>
-               
                <div style={{ marginBottom: '20px' }}>
                  <h4 style={{ margin: '0 0 8px 0', color: '#666' }}>💡 介绍</h4>
                  <p style={{ margin: 0, fontSize: '14px', color: '#555', lineHeight: '1.6' }}>{result.intro}</p>
                </div>
-
                <div style={{ marginBottom: '30px' }}>
                  <h4 style={{ margin: '0 0 8px 0', color: '#666' }}>🍲 做法概览</h4>
-                 <div style={{ background: '#fafafa', padding: '15px', borderRadius: '8px', fontSize: '13px', color: '#666', lineHeight: '1.6' }}>
-                   {result.recipe}
-                 </div>
+                 <div style={{ background: '#fafafa', padding: '15px', borderRadius: '8px', fontSize: '13px', color: '#666', lineHeight: '1.6' }}>{result.recipe}</div>
                </div>
-
-               <button 
-                 onClick={handleAddToDiet}
-                 style={{ width: '100%', padding: '12px', background: '#52c41a', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', boxShadow: '0 4px 10px rgba(82,196,26,0.3)' }}
-               >
-                 <span>➕</span> 加入今日热量摄入
+               <button onClick={handleAddToDiet} style={{ width: '100%', padding: '12px', background: '#52c41a', color: 'white', border: 'none', borderRadius: '8px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', boxShadow: '0 4px 10px rgba(82,196,26,0.3)' }}>
+                 <span>➕</span> 加入今日饮食清单
                </button>
             </div>
           )}
-
-          {/* 状态：识别失败 */}
           {status === 'error' && (
             <div style={{ background: '#fff1f0', padding: '40px', borderRadius: '16px', height: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: '#ff4d4f', border: '1px solid #ffccc7' }}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>⚠️</div>
@@ -310,7 +241,6 @@ const SeasonalView = () => (
     <div style={{ textAlign: 'center', marginBottom: '30px' }}>
        <span style={{ background: '#ffa940', color: 'white', padding: '8px 20px', borderRadius: '20px', fontWeight: 'bold' }}>☀️ 今日冬至，宜温补！</span>
     </div>
-
     <div style={{ background: 'white', borderRadius: '16px', padding: '30px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
        <div style={{ display: 'flex', gap: '40px', marginBottom: '30px' }}>
          <div style={{ flex: 1 }}>
@@ -322,7 +252,6 @@ const SeasonalView = () => (
             </div>
          </div>
        </div>
-
        <h3 style={{ borderLeft: '4px solid #1890ff', paddingLeft: '10px', marginBottom: '20px' }}>今日三餐建议</h3>
        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
          {meals.map((meal, idx) => (
@@ -370,50 +299,6 @@ const CultureView = () => {
   }
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ textAlign: 'left', marginBottom: '30px' }}>
-        <h2 style={{ fontSize: '28px', color: '#333', margin: 0 }}>🏛 陕西非遗文化长廊</h2>
-        <p style={{ color: '#666', marginTop: '5px' }}>探索三秦大地千年的文化积淀</p>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-        {heritageData.map((item) => (
-          <div key={item.id} onClick={() => setSelectedItem(item)} style={{ background: 'white', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'transform 0.2s' }}
-               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <img src={item.image} alt={item.title} style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
-            <div style={{ padding: '15px' }}>
-              <div style={{ fontSize: '12px', color: '#1890ff', fontWeight: 'bold', marginBottom: '5px' }}>{item.category}</div>
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#333' }}>{item.title}</h3>
-              <p style={{ fontSize: '13px', color: '#666', lineHeight: '1.5', margin: 0 }}>{item.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// --- 新版：个人中心 (Personal Center) ---
-const PersonalCenterView = () => {
-  const MenuItem = ({ icon, title, isRed, onClick }) => (
-    <div onClick={onClick} style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '16px 20px', borderBottom: '1px solid #f5f5f5', cursor: 'pointer',
-      color: isRed ? '#ff4d4f' : '#333',
-      transition: 'background 0.2s'
-    }}
-    onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
-    onMouseLeave={e => e.currentTarget.style.background = 'white'}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px' }}>
-        <span style={{ fontSize: '18px' }}>{icon}</span>
-        <span>{title}</span>
-      </div>
-      <span style={{ color: '#ccc' }}>&gt;</span>
-    </div>
-  );
-
-  return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
       {/* 1. 用户信息卡片 */}
       <div style={{ background: 'white', borderRadius: '16px', padding: '30px', display: 'flex', alignItems: 'center', gap: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', marginBottom: '20px' }}>
@@ -436,7 +321,7 @@ const PersonalCenterView = () => {
         </div>
         <div style={{ background: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
           <div style={{ color: '#999', fontSize: '12px', marginBottom: '5px' }}>今日热量摄入</div>
-          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1890ff' }}>1,240 <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#999' }}>/ 1800 kcal</span></div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1890ff' }}>{totalCalories} <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#999' }}>/ 1800 kcal</span></div>
         </div>
         <div style={{ background: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
           <div style={{ color: '#999', fontSize: '12px', marginBottom: '5px' }}>当前体重</div>
@@ -444,7 +329,32 @@ const PersonalCenterView = () => {
         </div>
       </div>
 
-      {/* 3. 设置与功能菜单 */}
+      {/* 3. 新增：AI识别饮食清单 */}
+      <h3 style={{ marginLeft: '10px', color: '#555' }}>今日饮食清单 (AI添加)</h3>
+      <div style={{ background: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', marginBottom: '30px', minHeight: '100px' }}>
+        {dietList.length === 0 ? (
+          <div style={{ textAlign: 'center', color: '#ccc', padding: '20px' }}>
+             暂无数据，请前往「AI识食」功能添加
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {dietList.map((item, idx) => (
+              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px', background: '#f9f9f9', borderRadius: '8px' }}>
+                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                   <div style={{ width: '40px', height: '40px', background: '#e6f7ff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🍲</div>
+                   <div>
+                     <div style={{ fontWeight: 'bold', color: '#333' }}>{item.name}</div>
+                     <div style={{ fontSize: '12px', color: '#999' }}>AI 智能识别</div>
+                   </div>
+                 </div>
+                 <div style={{ fontWeight: 'bold', color: '#52c41a' }}>+{item.calories} kcal</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* 4. 设置与功能菜单 */}
       <div style={{ background: 'white', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
         <MenuItem icon="📝" title="编辑资料" onClick={() => alert('跳转编辑资料页面')} />
         <MenuItem icon="⚙️" title="系统设置" onClick={() => alert('打开设置弹窗')} />
@@ -483,6 +393,14 @@ const SidebarItem = ({ label, icon, active, onClick }) => (
 
 function App() {
   const [activePage, setActivePage] = useState('home');
+  // 核心：提升状态，存储饮食列表
+  const [dietList, setDietList] = useState([]);
+
+  // 处理添加食物的逻辑
+  const handleAddToDiet = (foodItem) => {
+    // 简单的添加，实际开发可增加去重或ID生成
+    setDietList([...dietList, { ...foodItem, id: Date.now() }]);
+  };
 
   return (
     <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#f0f2f5', height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -523,10 +441,12 @@ function App() {
         {/* 右侧内容区 */}
         <main style={{ flex: 1, overflowY: 'auto', padding: '20px', backgroundColor: '#eef7fc' }}>
           {activePage === 'home' && <HomeView toPage={setActivePage} />}
-          {activePage === 'recognition' && <RecognitionView />}
+          {/* 传入 onAdd 函数 */}
+          {activePage === 'recognition' && <RecognitionView onAdd={handleAddToDiet} />}
           {activePage === 'season' && <SeasonalView />}
           {activePage === 'culture' && <CultureView />}
-          {activePage === 'report' && <PersonalCenterView />}
+          {/* 传入 dietList 数据 */}
+          {activePage === 'report' && <PersonalCenterView dietList={dietList} />}
         </main>
       </div>
 
@@ -539,3 +459,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
