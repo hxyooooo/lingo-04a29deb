@@ -102,7 +102,7 @@ const HomeView = ({ toPage }) => (
         { title: 'AI非遗识别', desc: '拍照识别陕西非遗菜品', icon: '📷', link: 'recognition' },
         { title: '节气饮食', desc: '根据节气推荐传统食谱', icon: '📅', link: 'season' },
         { title: '文化传承', desc: '学习陕西非遗技艺', icon: '📖', link: 'culture' },
-        { title: '健康报告', desc: '个性化健康分析', icon: '📈', link: 'report' }
+        { title: '个人中心', desc: '查看健康数据与设置', icon: '👤', link: 'report' }
       ].map((item, idx) => (
         <div key={idx} onClick={() => toPage(item.link)} style={{ background: 'white', padding: '25px', borderRadius: '12px', cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', textAlign: 'left' }}>
           <div style={{ fontSize: '30px', marginBottom: '15px', background: '#e6f7ff', width: '60px', height: '60px', lineHeight: '60px', borderRadius: '50%', textAlign: 'center', color: '#1890ff' }}>{item.icon}</div>
@@ -179,7 +179,7 @@ const SeasonalView = () => (
   </div>
 );
 
-// --- 文化传承 (新版) ---
+// --- 文化传承 ---
 const CultureView = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -227,8 +227,74 @@ const CultureView = () => {
   );
 };
 
+// --- 新版：个人中心 (Personal Center) ---
+const PersonalCenterView = () => {
+  // 设置列表项样式
+  const MenuItem = ({ icon, title, isRed, onClick }) => (
+    <div onClick={onClick} style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '16px 20px', borderBottom: '1px solid #f5f5f5', cursor: 'pointer',
+      color: isRed ? '#ff4d4f' : '#333',
+      transition: 'background 0.2s'
+    }}
+    onMouseEnter={e => e.currentTarget.style.background = '#fafafa'}
+    onMouseLeave={e => e.currentTarget.style.background = 'white'}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '15px' }}>
+        <span style={{ fontSize: '18px' }}>{icon}</span>
+        <span>{title}</span>
+      </div>
+      <span style={{ color: '#ccc' }}>&gt;</span>
+    </div>
+  );
+
+  return (
+    <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
+      {/* 1. 用户信息卡片 */}
+      <div style={{ background: 'white', borderRadius: '16px', padding: '30px', display: 'flex', alignItems: 'center', gap: '20px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', marginBottom: '20px' }}>
+        <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: '#ddd', overflow: 'hidden' }}>
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="avatar" style={{ width: '100%', height: '100%' }} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <h2 style={{ margin: '0 0 5px 0', color: '#333' }}>用户管理员 <span style={{ fontSize: '12px', background: '#fff7e6', color: '#fa8c16', padding: '2px 8px', borderRadius: '10px', verticalAlign: 'middle', border: '1px solid #ffd591' }}>VIP会员</span></h2>
+          <p style={{ margin: 0, color: '#999', fontSize: '13px' }}>ID: 8827364 | 陕西·西安</p>
+        </div>
+        <button style={{ padding: '8px 20px', border: '1px solid #1890ff', color: '#1890ff', background: 'white', borderRadius: '20px', cursor: 'pointer' }}>签到打卡</button>
+      </div>
+
+      {/* 2. 健康数据概览 (保留原健康报告功能) */}
+      <h3 style={{ marginLeft: '10px', color: '#555' }}>我的健康数据</h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '30px' }}>
+        <div style={{ background: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+          <div style={{ color: '#999', fontSize: '12px', marginBottom: '5px' }}>身体质量指数 (BMI)</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#52c41a' }}>21.5 <span style={{ fontSize: '12px', fontWeight: 'normal' }}>正常</span></div>
+        </div>
+        <div style={{ background: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+          <div style={{ color: '#999', fontSize: '12px', marginBottom: '5px' }}>今日热量摄入</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#1890ff' }}>1,240 <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#999' }}>/ 1800 kcal</span></div>
+        </div>
+        <div style={{ background: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 10px rgba(0,0,0,0.02)' }}>
+          <div style={{ color: '#999', fontSize: '12px', marginBottom: '5px' }}>当前体重</div>
+          <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fa8c16' }}>62.5 <span style={{ fontSize: '12px', fontWeight: 'normal', color: '#999' }}>kg</span></div>
+        </div>
+      </div>
+
+      {/* 3. 设置与功能菜单 */}
+      <div style={{ background: 'white', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+        <MenuItem icon="📝" title="编辑资料" onClick={() => alert('跳转编辑资料页面')} />
+        <MenuItem icon="⚙️" title="系统设置" onClick={() => alert('打开设置弹窗')} />
+        <MenuItem icon="🛡️" title="隐私与安全" onClick={() => alert('隐私设置')} />
+        <MenuItem icon="❓" title="帮助与反馈" onClick={() => alert('联系客服')} />
+        <MenuItem icon="🚪" title="退出登录" isRed={true} onClick={() => alert('已退出登录')} />
+      </div>
+
+      <p style={{ textAlign: 'center', color: '#ccc', fontSize: '12px', marginTop: '30px' }}>Version 1.0.0 · AI Health Diet App</p>
+    </div>
+  );
+};
+
 // ==========================================
-// 3. 布局结构 (Sidebar + Header)
+// 3. 布局结构
 // ==========================================
 
 const SidebarItem = ({ label, icon, active, onClick }) => (
@@ -256,54 +322,4 @@ function App() {
   return (
     <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#f0f2f5', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       
-      {/* 顶部 Header */}
-      <header style={{ background: '#1890ff', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', zIndex: 10 }}>
-        {/* 左侧标题 */}
-        <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '18px' }}>
-           <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '32px', height: '32px', borderRadius: '50%', textAlign: 'center', lineHeight: '32px', fontSize: '20px' }}>食</span>
-           AI健康饮食 · 陕西文化
-        </div>
-        {/* 右侧登录区 */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-           <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '20px', cursor: 'pointer' }}>🔔</span>
-           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-              <div style={{ width: '32px', height: '32px', background: '#ccc', borderRadius: '50%', border: '2px solid white' }}></div>
-              <span style={{ color: 'white', fontSize: '14px' }}>登录 / 注册</span>
-           </div>
-        </div>
-      </header>
-
-      {/* 左右布局 */}
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-        
-        {/* 左侧侧边栏 */}
-        <aside style={{ width: '240px', background: 'white', boxShadow: '2px 0 8px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', paddingTop: '20px', zIndex: 5 }}>
-          <div style={{ padding: '0 20px 20px 20px' }}>
-            <input type="text" placeholder="🔍 搜索..." style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #eee', background: '#f5f5f5', outline: 'none' }} />
-          </div>
-          <SidebarItem label="首页" icon="🏠" active={activePage === 'home'} onClick={() => setActivePage('home')} />
-          <SidebarItem label="AI识食" icon="📷" active={activePage === 'recognition'} onClick={() => setActivePage('recognition')} />
-          <SidebarItem label="节气饮食" icon="📅" active={activePage === 'season'} onClick={() => setActivePage('season')} />
-          <SidebarItem label="文化传承" icon="📖" active={activePage === 'culture'} onClick={() => setActivePage('culture')} />
-          <SidebarItem label="健康报告" icon="📈" active={activePage === 'report'} onClick={() => alert('健康报告模块正在开发中...')} />
-          <div style={{ marginTop: 'auto', padding: '20px', borderTop: '1px solid #eee', color: '#999', fontSize: '12px' }}>系统设置 ⚙️</div>
-        </aside>
-
-        {/* 右侧内容区 */}
-        <main style={{ flex: 1, overflowY: 'auto', padding: '20px', backgroundColor: '#eef7fc' }}>
-          {activePage === 'home' && <HomeView toPage={setActivePage} />}
-          {activePage === 'recognition' && <RecognitionView />}
-          {activePage === 'season' && <SeasonalView />}
-          {activePage === 'culture' && <CultureView />}
-        </main>
-      </div>
-
-      {/* AI助手 */}
-      <div style={{ position: 'fixed', bottom: '30px', right: '30px', background: '#3CA9C4', color: 'white', padding: '10px 20px', borderRadius: '30px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', zIndex: 100, fontWeight: 'bold' }}>
-        <span>✨</span> AI助手
-      </div>
-    </div>
-  );
-}
-
-export default App;
+      {/*
