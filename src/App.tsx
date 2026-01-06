@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './App.css'; // 确保有这个文件，或者删除这行
+import './App.css';
 
 // 定义数据类型
 interface FoodItem {
@@ -15,10 +15,11 @@ function App() {
   const [form, setForm] = useState<FoodItem>({ name: '', category: '', calories: 0, description: '' });
   const [isEditing, setIsEditing] = useState(false);
   
-  // 后端 API 地址 (阿里云部署后请将 localhost 替换为您的服务器公网 IP)
+  // 后端 API 地址 (如果是本地测试用 localhost，阿里云部署后请改为服务器IP)
   const API_URL = 'http://localhost:3001/api/food';
 
-  // 1. 初始化加载数据 {
+  // 1. 初始化加载数据 - 【这里已修正语法】
+  useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
       .then(data => setItems(data))
@@ -31,28 +32,36 @@ function App() {
     const method = isEditing && form.id ? 'PUT' : 'POST';
     const url = isEditing && form.id ? `${API_URL}/${form.id}` : API_URL;
 
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-    
-    if (res.ok) {
-      const newItem = await res.json();
-      if (isEditing) {
-        setItems(items.map(item => (item.id === newItem.id ? newItem : item)));
-      } else {
-        setItems([...items, newItem]);
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      
+      if (res.ok) {
+        const newItem = await res.json();
+        if (isEditing) {
+          setItems(items.map(item => (item.id === newItem.id ? newItem : item)));
+        } else {
+          setItems([...items, newItem]);
+        }
+        resetForm();
       }
-      resetForm();
+    } catch (error) {
+      console.error('提交失败:', error);
     }
   };
 
   // 3. 删除数据
   const handleDelete = async (id: number) => {
     if (!window.confirm('确定删除这条饮食记录吗?')) return;
-    await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-    setItems(items.filter(item => item.id !== id));
+    try {
+      await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      setItems(items.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('删除失败:', error);
+    }
   };
 
   // 4. 准备编辑
