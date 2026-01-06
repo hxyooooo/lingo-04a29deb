@@ -322,4 +322,59 @@ function App() {
   return (
     <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#f0f2f5', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       
-      {/*
+      {/* 顶部 Header */}
+      <header style={{ background: '#1890ff', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', zIndex: 10 }}>
+        {/* 左侧标题 */}
+        <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '18px' }}>
+           <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '32px', height: '32px', borderRadius: '50%', textAlign: 'center', lineHeight: '32px', fontSize: '20px' }}>食</span>
+           AI健康饮食 · 陕西文化
+        </div>
+        {/* 右侧登录区 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+           <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '20px', cursor: 'pointer' }}>🔔</span>
+           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <div style={{ width: '32px', height: '32px', background: '#ccc', borderRadius: '50%', border: '2px solid white' }}></div>
+              <span style={{ color: 'white', fontSize: '14px' }}>登录 / 注册</span>
+           </div>
+        </div>
+      </header>
+
+      {/* 左右布局 */}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        
+        {/* 左侧侧边栏 */}
+        <aside style={{ width: '240px', background: 'white', boxShadow: '2px 0 8px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', paddingTop: '20px', zIndex: 5 }}>
+          <div style={{ padding: '0 20px 20px 20px' }}>
+            <input type="text" placeholder="🔍 搜索..." style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #eee', background: '#f5f5f5', outline: 'none' }} />
+          </div>
+          <SidebarItem label="首页" icon="🏠" active={activePage === 'home'} onClick={() => setActivePage('home')} />
+          <SidebarItem label="AI识食" icon="📷" active={activePage === 'recognition'} onClick={() => setActivePage('recognition')} />
+          <SidebarItem label="节气饮食" icon="📅" active={activePage === 'season'} onClick={() => setActivePage('season')} />
+          <SidebarItem label="文化传承" icon="📖" active={activePage === 'culture'} onClick={() => setActivePage('culture')} />
+          <SidebarItem label="个人中心" icon="👤" active={activePage === 'report'} onClick={() => setActivePage('report')} />
+          
+          <div style={{ marginTop: 'auto', padding: '20px', borderTop: '1px solid #eee', color: '#999', fontSize: '12px' }}>
+             系统设置 ⚙️
+          </div>
+        </aside>
+
+        {/* 右侧内容区 */}
+        <main style={{ flex: 1, overflowY: 'auto', padding: '20px', backgroundColor: '#eef7fc' }}>
+          {activePage === 'home' && <HomeView toPage={setActivePage} />}
+          {activePage === 'recognition' && <RecognitionView />}
+          {activePage === 'season' && <SeasonalView />}
+          {activePage === 'culture' && <CultureView />}
+          {activePage === 'report' && <PersonalCenterView />}
+        </main>
+
+      </div>
+
+      {/* AI助手悬浮按钮 */}
+      <div style={{ position: 'fixed', bottom: '30px', right: '30px', background: '#3CA9C4', color: 'white', padding: '10px 20px', borderRadius: '30px', boxShadow: '0 4px 15px rgba(0,0,0,0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', zIndex: 100, fontWeight: 'bold' }}>
+        <span>✨</span> AI助手
+      </div>
+    </div>
+  );
+}
+
+export default App;
