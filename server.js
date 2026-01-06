@@ -1,48 +1,99 @@
-// ✅ 使用 require 引入，这是 Node.js 最原生的写法，绝对不会报错
-const express = require('express');
-const mysql = require('mysql2/promise');
-const cors = require('cors');
+import express from 'express';
+import mysql from 'mysql2/promise'; // 使用 promise 版本，代码更简洁
+import cors from 'cors';
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const port = 3001; // 后端服务端口
 
-// ⚠️⚠️⚠️ 记得确认这里的密码是对的 ⚠️⚠️⚠️
+// 1. 中间件配置
+app.use(cors()); // 允许前端跨域访问
+app.use(express.json()); // 解析 JSON 请求体
+
+// 2. 数据库连接配置
 const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: '123456', // <--- 记得改成你的真实密码
-  database: 'lingo_db'
+    host: 'localhost',       // 阿里云数据库公网地址 (如果是本地测试填 localhost)
+    user: 'root',           // 数据库用户名
+    password: '123456',    // 数据库密码
+    database: 'lingo_db'    // 数据库名称
 };
 
-// 创建连接池
+// 创建数据库连接池
 const pool = mysql.createPool(dbConfig);
 
-// 测试连接
-pool.getConnection()
-    .then(conn => {
-        console.log('✅ 数据库连接成功！');
-        conn.release();
-    })
-    .catch(err => console.error('❌ 数据库连接失败:', err.message));
+// 3. 数据库初始化 (自动创建表)
+async function initDB() {
+    try {
+        const connection = await pool.getConnection();
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS food_items (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                category VARCHAR(100),
+                calories INT,
+                description TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
+        connection.release();
+        console.log('数据库连接成功，表检查完毕。');
+    } catch (err) {
+        console.error('数据库连接失败:', err);
+    }
+}
 
-// --- 接口区域 ---
+initDB();
 
-// 这里的代码还是用之前的，只是头部引入方式变了
-app.get('/api/heritage', async (req, res) => {
-  try {
-    const [rows] = await pool.query('SELECT * FROM heritage_items');
-    res.json(rows);
-  } catch (error) {
-    console.error(error);
-    // 失败时返回假数据兜底，保证页面有东西看
-    res.json([
-       { id: 1, title: '测试数据-皮影戏', category: '演示', description: '数据库连接异常，这是备用数据', image_url: 'https://img.zcool.cn/community/01f1f35d2d8bcfa80121483789f852.jpg@1280w_1l_2o_100sh.jpg' }
-    ]);
-  }
+// 4. CRUD 接口实现
+
+// 查询 (Read)
+app.get('/api/food', async (req, res) => {
+    try {
+        const [rows] = await pool.query('SELECT * FROM food_items ORDER BY created_at DESC');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 后端运行在 http://localhost:${PORT}`);
+// 新增 {
+    const { name, category, calories, description } = req.body;
+    try {
+        const [result] = await pool.query(
+            'INSERT INTO food_items (name, category, calories, description) VALUES (?, ?, ?, ?)',
+            [name, category, calories, description]
+        );
+        res.status(201).json({ id: result.insertId, name, category, calories, description });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 修改 {
+    const { name, category, calories, description } = req.body;
+    const { id } = req.params;
+    try {
+        await pool.query(
+            'UPDATE food_items SET name=?, category=?, calories=?, description=? WHERE id=?',
+            [name, category, calories, description, id]
+        );
+        res.json({ message: '更新成功', id, name, category, calories, description });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 删除 (Delete)
+app.delete('/api/food/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('DELETE FROM food_items WHERE id = ?', [id]);
+        res.json({ message: '删除成功', id });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 启动服务
+app.listen(port, () => {
+    console.log(`后端服务运行在 http://localhost:${port}`);
 });
