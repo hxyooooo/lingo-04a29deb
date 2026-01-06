@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 // 1. 全局数据准备
 // ==========================================
 
-// 文化传承数据
+// --- 文化传承数据 (非遗长廊) ---
 const heritageData = [
   {
     id: 1,
@@ -61,6 +61,54 @@ const heritageData = [
     videoUrl: '#'
   }
 ];
+
+// --- 节气数据字典 ---
+const seasonalData = {
+  lichun: {
+    name: '立春',
+    date: '2月3日-5日',
+    color: '#52c41a',
+    intro: '立春，为二十四节气之首。立，是“开始”之意；春，代表着温暖、生长。立春不仅是春天的开始，也是一年农事活动的开端。陕西民间有“咬春”的习俗，吃春饼、嚼萝卜，祈求身体健康，五谷丰登。',
+    foods: [
+      { name: '春饼卷素', calories: 320, desc: '薄饼卷土豆丝、豆芽，寓意咬住春天', icon: '🌯' },
+      { name: '凉拌萝卜丝', calories: 80, desc: '清脆爽口，顺气消食，谓之“咬春”', icon: '🥕' },
+      { name: '韭菜炒鸡蛋', calories: 260, desc: '春令时鲜，助阳生发', icon: '🥚' }
+    ]
+  },
+  qingming: {
+    name: '清明',
+    date: '4月4日-6日',
+    color: '#13c2c2',
+    intro: '清明时节雨纷纷，万物生长此时洁净而明清。此时节气温转暖，但早晚仍有凉意。饮食宜温和，多吃柔肝养肺的食物。陕西关中地区有吃“寒食”的遗风，如凉皮、凉面等。',
+    foods: [
+      { name: '青团', calories: 220, desc: '艾草汁和面，清淡幽香，软糯可口', icon: '🟢' },
+      { name: '秦镇凉皮', calories: 280, desc: '清明吃凉，酸辣开胃，关中特色', icon: '🍜' },
+      { name: '螺蛳肉', calories: 150, desc: '清明螺，抵只鹅，肉质肥美', icon: '🐚' }
+    ]
+  },
+  dashu: {
+    name: '大暑',
+    date: '7月22日-24日',
+    color: '#fa8c16',
+    intro: '大暑是全年最热的节气，“湿热交蒸”在此时达到顶点。饮食应以清热解暑、健脾利湿为主。老陕人喜欢在夏天喝绿豆汤、吃浆水鱼鱼，既解暑又开胃。',
+    foods: [
+      { name: '绿豆百合汤', calories: 120, desc: '消暑止渴，清心安神', icon: '🥣' },
+      { name: '浆水鱼鱼', calories: 180, desc: '酸香爽滑，也是陕西夏日消暑神器', icon: '🐟' },
+      { name: '苦瓜炒肉', calories: 240, desc: '苦味入心，清热祛火', icon: '🥒' }
+    ]
+  },
+  dongzhi: {
+    name: '冬至',
+    date: '12月21日-23日',
+    color: '#1890ff',
+    intro: '冬至是“阴极之至，阳气始生”的重要节气。在陕西，冬至地位极高，所谓“冬至大如年”。最核心的习俗就是吃饺子，寓意消寒，不冻耳朵；陕北地区则有喝羊肉汤的习惯，以此温补阳气。',
+    foods: [
+      { name: '酸汤水饺', calories: 450, desc: '冬至不端饺子碗，冻掉耳朵没人管', icon: '🥟' },
+      { name: '铁锅炖羊肉', calories: 500, desc: '温中暖肾，抵御严寒', icon: '🥘' },
+      { name: '八宝粥', calories: 300, desc: '五谷杂粮，健脾养胃', icon: '🥣' }
+    ]
+  }
+};
 
 // ==========================================
 // 2. 页面组件
@@ -198,89 +246,27 @@ const RecognitionView = ({ onAdd }) => {
   );
 };
 
-// --- [修复版] 节气饮食 ---
-// 增加功能：多节气切换、养生卡片、加入清单联动
+// --- [新版] 节气饮食 ---
 const SeasonalView = ({ onAdd }) => {
+  // 默认选中“冬至”
   const [activeTerm, setActiveTerm] = useState('dongzhi');
+  
+  // 获取当前选中节气的数据
+  const termInfo = seasonalData[activeTerm];
 
-  // 节气数据字典
-  const seasonalData = {
-    dongzhi: {
-      id: 'dongzhi',
-      name: '冬至',
-      color: '#1890ff',
-      tagline: '阴极之至，阳气始生',
-      tip: { good: '羊肉、饺子、坚果', bad: '生冷海鲜、过量辛辣' },
-      meals: [
-        { type: '早餐', name: '温补小米粥', calories: 200, desc: '温补阳气，顺应冬至节气特点', icon: '☕' },
-        { type: '午餐', name: '冬至低脂饺子', calories: 450, desc: '俗话说：冬至不端饺子碗，冻掉耳朵没人管', icon: '🥟' },
-        { type: '晚餐', name: '温阳羊肉汤', calories: 350, desc: '暖胃驱寒，补充优质蛋白质', icon: '🍲' }
-      ]
-    },
-    lichun: {
-      id: 'lichun',
-      name: '立春',
-      color: '#52c41a',
-      tagline: '大地回春，万物复苏',
-      tip: { good: '春笋、韭菜、菠菜', bad: '酸味食物、油腻补品' },
-      meals: [
-        { type: '早餐', name: '春饼卷素菜', calories: 320, desc: '咬春习俗，清淡爽口', icon: '🌯' },
-        { type: '午餐', name: '韭菜炒河虾', calories: 280, desc: '助阳生发，增强脾胃之气', icon: '🦐' },
-        { type: '晚餐', name: '红枣山药粥', calories: 240, desc: '养血安神，温补脾胃', icon: '🥣' }
-      ]
-    },
-    dashu: {
-      id: 'dashu',
-      name: '大暑',
-      color: '#fa8c16',
-      tagline: '赤日炎炎，湿热交蒸',
-      tip: { good: '绿豆、冬瓜、苦瓜', bad: '冷饮过量、油炸烧烤' },
-      meals: [
-        { type: '早餐', name: '绿豆百合汤', calories: 150, desc: '清热解暑，生津止渴', icon: '🥣' },
-        { type: '午餐', name: '凉拌苦瓜', calories: 120, desc: '去心火，解毒明目', icon: '🥗' },
-        { type: '晚餐', name: '冬瓜老鸭汤', calories: 380, desc: '滋阴补血，利水消肿', icon: '🦆' }
-      ]
-    }
-  };
-
-  const currentData = seasonalData[activeTerm];
-
-  const handleAddMeal = (meal) => {
+  // 处理添加食物到清单
+  const handleAddFood = (food) => {
     if (onAdd) {
-      // 构造成符合个人中心的数据格式
       onAdd({
-        name: `${meal.type}·${meal.name}`,
-        calories: meal.calories,
+        name: `${termInfo.name}·${food.name}`,
+        calories: food.calories,
         unit: '份'
       });
-      alert(`已添加【${meal.name}】到饮食清单！`);
+      alert(`已将【${food.name}】加入个人中心的饮食清单！`);
     }
   };
 
-  const TabButton = ({ termKey, label }) => {
-    const isActive = activeTerm === termKey;
-    return (
-      <div 
-        onClick={() => setActiveTerm(termKey)}
-        style={{ 
-          border: isActive ? `2px solid ${seasonalData[termKey].color}` : '1px solid #eee', 
-          color: isActive ? seasonalData[termKey].color : '#999', 
-          padding: '10px 24px', 
-          borderRadius: '8px', 
-          fontWeight: isActive ? 'bold' : 'normal', 
-          background: isActive ? '#fff' : '#f9f9f9',
-          cursor: 'pointer',
-          transition: 'all 0.2s',
-          flex: 1,
-          textAlign: 'center'
-        }}
-      >
-        {label}
-      </div>
-    );
-  };
-
- return (
+  return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
       <div style={{ textAlign: 'left', marginBottom: '30px' }}>
         <h2 style={{ fontSize: '28px', color: '#333', margin: 0 }}>🏛 陕西非遗文化长廊</h2>
@@ -457,7 +443,6 @@ function App() {
         <main style={{ flex: 1, overflowY: 'auto', padding: '20px', backgroundColor: '#eef7fc' }}>
           {activePage === 'home' && <HomeView toPage={setActivePage} />}
           {activePage === 'recognition' && <RecognitionView onAdd={handleAddToDiet} />}
-          {/* 这里也传入了 onAdd */}
           {activePage === 'season' && <SeasonalView onAdd={handleAddToDiet} />}
           {activePage === 'culture' && <CultureView />}
           {activePage === 'report' && <PersonalCenterView dietList={dietList} />}
@@ -472,3 +457,8 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
