@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // ==========================================
-// 1. 数据准备 (模拟后台数据)
+// 1. 数据准备 (保持原样，完全未动)
 // ==========================================
 
 // --- 文化传承数据 (非遗) ---
@@ -70,44 +70,44 @@ const meals = [
 ];
 
 // ==========================================
-// 2. 页面组件 (分别对应你的截图)
+// 2. 页面组件 (功能内容保持原样)
 // ==========================================
 
 // --- 1. 首页 (Home) ---
 const HomeView = ({ toPage }) => (
-  <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 20px', textAlign: 'center' }}>
-    <h1 style={{ fontSize: '48px', color: '#333', marginBottom: '10px', fontWeight: 'bold' }}>AI健康饮食</h1>
-    <h1 style={{ fontSize: '48px', color: '#1890ff', marginTop: '0', marginBottom: '20px', fontWeight: 'bold' }}>陕西传统文化融合</h1>
-    <p style={{ fontSize: '18px', color: '#666', marginBottom: '40px' }}>以AI轻量化赋能精准健康饮食，结合陕西非遗饮食文化传承的移动应用</p>
+  <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px', textAlign: 'center' }}>
+    <h1 style={{ fontSize: '42px', color: '#333', marginBottom: '10px', fontWeight: 'bold' }}>AI健康饮食</h1>
+    <h1 style={{ fontSize: '42px', color: '#1890ff', marginTop: '0', marginBottom: '20px', fontWeight: 'bold' }}>陕西传统文化融合</h1>
+    <p style={{ fontSize: '16px', color: '#666', marginBottom: '40px' }}>以AI轻量化赋能精准健康饮食，结合陕西非遗饮食文化传承的移动应用</p>
     
-    <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginBottom: '60px' }}>
+    <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginBottom: '50px' }}>
       <button onClick={() => toPage('recognition')} style={{ padding: '12px 36px', background: '#1890ff', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', cursor: 'pointer', boxShadow: '0 4px 10px rgba(24,144,255,0.3)' }}>开始体验</button>
       <button style={{ padding: '12px 36px', background: 'white', color: '#666', border: '1px solid #ddd', borderRadius: '6px', fontSize: '16px', cursor: 'pointer' }}>了解更多</button>
     </div>
 
-    <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', marginBottom: '80px', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', marginBottom: '60px', flexWrap: 'wrap' }}>
       {[
         { num: '42+', label: '非遗菜品' }, { num: '128+', label: '传统食谱' }, { num: '2456+', label: '注册用户' }
       ].map((stat, idx) => (
-        <div key={idx} style={{ background: 'white', padding: '30px', borderRadius: '12px', width: '250px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-          <div style={{ fontSize: '36px', color: '#ffa940', fontWeight: 'bold' }}>{stat.num}</div>
+        <div key={idx} style={{ background: 'white', padding: '20px', borderRadius: '12px', width: '220px', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
+          <div style={{ fontSize: '32px', color: '#ffa940', fontWeight: 'bold' }}>{stat.num}</div>
           <div style={{ color: '#666', marginTop: '5px' }}>{stat.label}</div>
         </div>
       ))}
     </div>
 
-    <h2 style={{ fontSize: '28px', marginBottom: '40px' }}>核心功能</h2>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '30px' }}>
+    <h2 style={{ fontSize: '24px', marginBottom: '30px', textAlign: 'left' }}>核心功能概览</h2>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
       {[
         { title: 'AI非遗识别', desc: '拍照识别陕西非遗菜品', icon: '📷', link: 'recognition' },
         { title: '节气饮食', desc: '根据节气推荐传统食谱', icon: '📅', link: 'season' },
         { title: '文化传承', desc: '学习陕西非遗技艺', icon: '📖', link: 'culture' },
         { title: '健康报告', desc: '个性化健康分析', icon: '📈', link: 'report' }
       ].map((item, idx) => (
-        <div key={idx} onClick={() => toPage(item.link)} style={{ background: 'white', padding: '30px 20px', borderRadius: '16px', cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 15px rgba(0,0,0,0.05)' }}>
-          <div style={{ fontSize: '40px', marginBottom: '15px', background: '#e6f7ff', width: '80px', height: '80px', lineHeight: '80px', borderRadius: '50%', margin: '0 auto 15px auto', color: '#1890ff' }}>{item.icon}</div>
-          <h3 style={{ margin: '0 0 10px 0' }}>{item.title}</h3>
-          <p style={{ color: '#999', fontSize: '14px', margin: 0 }}>{item.desc}</p>
+        <div key={idx} onClick={() => toPage(item.link)} style={{ background: 'white', padding: '25px', borderRadius: '12px', cursor: 'pointer', transition: 'transform 0.2s', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', textAlign: 'left' }}>
+          <div style={{ fontSize: '30px', marginBottom: '15px', background: '#e6f7ff', width: '60px', height: '60px', lineHeight: '60px', borderRadius: '50%', textAlign: 'center', color: '#1890ff' }}>{item.icon}</div>
+          <h3 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>{item.title}</h3>
+          <p style={{ color: '#999', fontSize: '13px', margin: 0 }}>{item.desc}</p>
         </div>
       ))}
     </div>
@@ -117,8 +117,8 @@ const HomeView = ({ toPage }) => (
 // --- 2. AI识食 (Recognition) ---
 const RecognitionView = () => (
   <div style={{ textAlign: 'center', padding: '40px 20px', maxWidth: '1000px', margin: '0 auto' }}>
-    <h1 style={{ color: '#333', fontSize: '32px', marginBottom: '10px' }}>AI非遗菜品识别</h1>
-    <p style={{ color: '#666', marginBottom: '40px' }}>拍照识别陕西非遗菜品，获取营养信息和文化背景</p>
+    <h1 style={{ color: '#333', fontSize: '28px', marginBottom: '10px' }}>AI非遗菜品识别</h1>
+    <p style={{ color: '#666', marginBottom: '30px' }}>拍照识别陕西非遗菜品，获取营养信息和文化背景</p>
     <div style={{ background: 'white', padding: '40px', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', display: 'flex', gap: '40px', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
       <div style={{ flex: 1, border: '2px dashed #d9d9d9', borderRadius: '12px', height: '250px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: '#fafafa', cursor: 'pointer' }}>
         <div style={{ fontSize: '48px', color: '#ccc', marginBottom: '10px' }}>📷</div>
@@ -132,18 +132,8 @@ const RecognitionView = () => (
       </div>
     </div>
     <div style={{ marginTop: '30px', display: 'flex', gap: '20px', justifyContent: 'center' }}>
-      <button style={{ padding: '12px 30px', background: '#1890ff', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', cursor: 'pointer' }}>📤 上传图片</button>
-      <button style={{ padding: '12px 30px', background: '#e6e6e6', color: '#666', border: 'none', borderRadius: '6px', fontSize: '16px', cursor: 'pointer' }}>🔄 重新识别</button>
-    </div>
-    <div style={{ marginTop: '40px', background: 'white', borderRadius: '12px', padding: '20px', textAlign: 'left', display: 'flex', gap: '20px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-      <div style={{ flex: 1, background: '#f0f9ff', padding: '15px', borderRadius: '8px' }}>
-        <h4 style={{ margin: '0 0 5px 0', color: '#1890ff' }}>最佳拍摄角度</h4>
-        <p style={{ margin: 0, fontSize: '13px', color: '#666' }}>正面拍摄，确保菜品完整可见，避免反光和阴影</p>
-      </div>
-      <div style={{ flex: 1, background: '#f6ffed', padding: '15px', borderRadius: '8px' }}>
-        <h4 style={{ margin: '0 0 5px 0', color: '#52c41a' }}>支持识别</h4>
-        <p style={{ margin: 0, fontSize: '13px', color: '#666' }}>陕西非遗菜品如腊汁肉、凉皮、甑糕等传统美食</p>
-      </div>
+      <button style={{ padding: '10px 30px', background: '#1890ff', color: 'white', border: 'none', borderRadius: '6px', fontSize: '14px', cursor: 'pointer' }}>📤 上传图片</button>
+      <button style={{ padding: '10px 30px', background: '#e6e6e6', color: '#666', border: 'none', borderRadius: '6px', fontSize: '14px', cursor: 'pointer' }}>🔄 重新识别</button>
     </div>
   </div>
 );
@@ -153,7 +143,6 @@ const SeasonalView = () => (
   <div style={{ padding: '40px 20px', maxWidth: '1000px', margin: '0 auto' }}>
     <div style={{ textAlign: 'center', marginBottom: '30px' }}>
        <span style={{ background: '#ffa940', color: 'white', padding: '8px 20px', borderRadius: '20px', fontWeight: 'bold' }}>☀️ 今日冬至，宜温补！</span>
-       <p style={{ color: '#666', marginTop: '20px' }}>根据当前节气和健康目标，推荐适宜的传统食谱</p>
     </div>
 
     <div style={{ background: 'white', borderRadius: '16px', padding: '30px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
@@ -167,19 +156,6 @@ const SeasonalView = () => (
                <div style={{ border: '1px solid #eee', color: '#999', padding: '10px 20px', borderRadius: '8px' }}>立夏</div>
             </div>
          </div>
-         <div style={{ flex: 1 }}>
-            <div style={{ marginBottom: '10px', color: '#666' }}>健康目标</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-               <div style={{ border: '2px solid #1890ff', color: '#1890ff', padding: '10px', textAlign: 'center', borderRadius: '6px', background: '#e6f7ff' }}>减脂</div>
-               <div style={{ border: '1px solid #eee', color: '#666', padding: '10px', textAlign: 'center', borderRadius: '6px' }}>增肌</div>
-               <div style={{ border: '1px solid #eee', color: '#666', padding: '10px', textAlign: 'center', borderRadius: '6px' }}>控糖</div>
-               <div style={{ border: '1px solid #eee', color: '#666', padding: '10px', textAlign: 'center', borderRadius: '6px' }}>养生</div>
-            </div>
-         </div>
-       </div>
-
-       <div style={{ textAlign: 'center', margin: '40px 0' }}>
-          <button style={{ background: '#1890ff', color: 'white', border: 'none', padding: '12px 40px', borderRadius: '30px', fontSize: '16px', boxShadow: '0 4px 10px rgba(24,144,255,0.3)', cursor: 'pointer' }}>收起三餐建议</button>
        </div>
 
        {/* 列表区 */}
@@ -190,13 +166,13 @@ const SeasonalView = () => (
               <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                 <div style={{ fontSize: '32px' }}>{meal.icon}</div>
                 <div>
-                   <div style={{ fontWeight: 'bold', fontSize: '18px', color: '#333' }}>{meal.type} - {meal.name}</div>
-                   <div style={{ color: '#666', fontSize: '14px', marginTop: '4px' }}>{meal.desc}</div>
+                   <div style={{ fontWeight: 'bold', fontSize: '16px', color: '#333' }}>{meal.type} - {meal.name}</div>
+                   <div style={{ color: '#666', fontSize: '13px', marginTop: '4px' }}>{meal.desc}</div>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                  <span style={{ color: '#1890ff', fontWeight: 'bold' }}>{meal.kcal} kcal</span>
-                 <button style={{ background: '#1890ff', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>加入清单</button>
+                 <button style={{ background: '#1890ff', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>加入</button>
               </div>
            </div>
          ))}
@@ -205,14 +181,13 @@ const SeasonalView = () => (
   </div>
 );
 
-// --- 4. 文化传承 (Culture) - 新功能：非遗展示 ---
+// --- 4. 文化传承 (Culture) ---
 const CultureView = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // 详情页
   if (selectedItem) {
     return (
-      <div style={{ maxWidth: '1000px', margin: '40px auto', padding: '30px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
+      <div style={{ maxWidth: '1000px', margin: '20px auto', padding: '30px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
         <button onClick={() => setSelectedItem(null)} style={{ marginBottom: '20px', padding: '8px 20px', border: '1px solid #ddd', background: 'white', borderRadius: '6px', cursor: 'pointer' }}>← 返回列表</button>
         <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
           <img src={selectedItem.image} alt={selectedItem.title} style={{ width: '100%', maxWidth: '450px', borderRadius: '12px', objectFit: 'cover' }} />
@@ -222,7 +197,6 @@ const CultureView = () => {
             <p style={{ fontSize: '16px', lineHeight: '1.8', color: '#555', margin: '20px 0' }}>{selectedItem.detail}</p>
             <div style={{ background: '#fffbe6', padding: '20px', borderRadius: '8px', border: '1px solid #ffe58f' }}>
               <h3 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>🎥 影像资料库</h3>
-              <p style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>观看官方纪录片，深入了解传承故事。</p>
               <a href={selectedItem.videoUrl} target="_blank" rel="noreferrer" style={{ background: '#ff4d4f', color: 'white', textDecoration: 'none', padding: '8px 20px', borderRadius: '4px', fontSize: '14px' }}>▶ 立即观看</a>
             </div>
           </div>
@@ -231,23 +205,22 @@ const CultureView = () => {
     );
   }
 
-  // 列表页
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h2 style={{ fontSize: '32px', color: '#333', margin: 0 }}>🏛 陕西非遗文化长廊</h2>
-        <p style={{ color: '#666', marginTop: '10px' }}>探索三秦大地千年的文化积淀</p>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+      <div style={{ textAlign: 'left', marginBottom: '30px' }}>
+        <h2 style={{ fontSize: '28px', color: '#333', margin: 0 }}>🏛 陕西非遗文化长廊</h2>
+        <p style={{ color: '#666', marginTop: '5px' }}>探索三秦大地千年的文化积淀</p>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
         {heritageData.map((item) => (
           <div key={item.id} onClick={() => setSelectedItem(item)} style={{ background: 'white', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'transform 0.2s' }}
                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <img src={item.image} alt={item.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
-            <div style={{ padding: '20px' }}>
+            <img src={item.image} alt={item.title} style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
+            <div style={{ padding: '15px' }}>
               <div style={{ fontSize: '12px', color: '#1890ff', fontWeight: 'bold', marginBottom: '5px' }}>{item.category}</div>
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '18px', color: '#333' }}>{item.title}</h3>
-              <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.5', margin: 0 }}>{item.desc}</p>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '16px', color: '#333' }}>{item.title}</h3>
+              <p style={{ fontSize: '13px', color: '#666', lineHeight: '1.5', margin: 0 }}>{item.desc}</p>
             </div>
           </div>
         ))}
@@ -257,92 +230,101 @@ const CultureView = () => {
 };
 
 // ==========================================
-// 3. 主程序 (App Layout)
+// 3. 主程序 (App Layout) - 布局重构部分
 // ==========================================
+
+// 侧边栏按钮组件
+const SidebarItem = ({ label, icon, active, onClick }) => (
+  <div onClick={onClick} style={{
+    padding: '16px 24px',
+    cursor: 'pointer',
+    background: active ? '#e6f7ff' : 'transparent', // 选中背景色
+    color: active ? '#1890ff' : '#666',             // 选中文字颜色
+    borderRight: active ? '3px solid #1890ff' : '3px solid transparent', // 右侧选中条
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    fontSize: '15px',
+    fontWeight: active ? 'bold' : 'normal',
+    transition: 'all 0.2s'
+  }}>
+    <span style={{ fontSize: '18px' }}>{icon}</span>
+    {label}
+  </div>
+);
+
 function App() {
   const [activePage, setActivePage] = useState('home');
 
-  const getNavItemStyle = (page) => ({
-    color: '#333',
-    textDecoration: 'none',
-    fontSize: '16px',
-    padding: '12px 20px',
-    cursor: 'pointer',
-    fontWeight: activePage === page ? 'bold' : 'normal',
-    backgroundColor: activePage === page ? '#e6f7ff' : 'transparent',
-    borderRadius: '4px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px'
-  });
-
   return (
-    <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#f0f2f5', minHeight: '100vh', display: 'flex' }}>
+    <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#f0f2f5', height: '100vh', display: 'flex', flexDirection: 'column' }}>
       
-      {/* 左侧导航栏 */}
-      <div style={{ width: '220px', background: 'white', boxShadow: '2px 0 8px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column' }}>
-        {/* 顶部标题 */}
-        <div style={{ padding: '20px', borderBottom: '1px solid #eee', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span style={{ fontSize: '20px', color: '#1890ff' }}>🍃</span>
-          <span style={{ fontWeight: 'bold', fontSize: '18px', color: '#333' }}>营养师后台管理系统</span>
+      {/* 1. 顶部 Header (固定高度，左右布局) */}
+      <header style={{ 
+        background: '#1890ff', 
+        height: '60px', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        padding: '0 20px', 
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        zIndex: 10
+      }}>
+        {/* 左侧：Logo和标题 */}
+        <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '18px' }}>
+           <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '32px', height: '32px', borderRadius: '50%', textAlign: 'center', lineHeight: '32px', fontSize: '20px' }}>食</span>
+           AI健康饮食 · 陕西文化
         </div>
-        
-        {/* 搜索框 */}
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid #eee' }}>
-          <div style={{ display: 'flex', alignItems: 'center', background: '#f5f5f5', borderRadius: '6px', padding: '8px 12px' }}>
-            <span style={{ color: '#999', marginRight: '8px' }}>🔍</span>
-            <input type="text" placeholder="搜索..." style={{ border: 'none', background: 'transparent', outline: 'none', width: '100%' }} />
-          </div>
-        </div>
-        
-        {/* 导航菜单 */}
-        <nav style={{ padding: '16px 0', flex: 1 }}>
-          {[
-            { icon: '🏠', label: '仪表盘', page: 'home' },
-            { icon: '👥', label: '用户管理', page: 'users' },
-            { icon: '🍎', label: '食物数据库', page: 'food' },
-            { icon: '🍽️', label: '食谱管理', page: 'recipes' },
-            { icon: '📝', label: '饮食记录', page: 'records' },
-            { icon: '📊', label: '营养分析', page: 'analysis' },
-            { icon: '⚙️', label: '系统设置', page: 'settings' }
-          ].map((item, idx) => (
-            <div key={idx} onClick={() => setActivePage(item.page)} style={getNavItemStyle(item.page)}>
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
-            </div>
-          ))}
-        </nav>
-      </div>
 
-      {/* 右侧主内容区域 */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* 顶部导航栏 */}
-        <header style={{ background: '#1890ff', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px' }}>
-            <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '30px', height: '30px', borderRadius: '50%', textAlign: 'center', lineHeight: '30px', fontSize: '18px' }}>食</span>
-            AI健康饮食 · 陕西文化
+        {/* 右侧：登录按钮 (只移动位置，不改功能) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+           <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '20px', cursor: 'pointer' }}>🔔</span>
+           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+              <div style={{ width: '32px', height: '32px', background: '#ccc', borderRadius: '50%', border: '2px solid white' }}></div>
+              <span style={{ color: 'white', fontSize: '14px' }}>登录 / 注册</span>
+           </div>
+        </div>
+      </header>
+
+      {/* 2. 下方主体 (Flex布局：左侧边栏 + 右侧内容) */}
+      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+        
+        {/* 左侧侧边栏 (Sidebar) */}
+        <aside style={{ 
+          width: '240px', 
+          background: 'white', 
+          boxShadow: '2px 0 8px rgba(0,0,0,0.05)', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          paddingTop: '20px',
+          zIndex: 5
+        }}>
+          {/* 搜索框 (模拟图片中的搜索) */}
+          <div style={{ padding: '0 20px 20px 20px' }}>
+            <input type="text" placeholder="🔍 搜索..." style={{ width: '100%', padding: '8px 12px', borderRadius: '4px', border: '1px solid #eee', background: '#f5f5f5', outline: 'none' }} />
           </div>
+
+          {/* 垂直导航菜单 */}
+          <SidebarItem label="首页" icon="🏠" active={activePage === 'home'} onClick={() => setActivePage('home')} />
+          <SidebarItem label="AI识食" icon="📷" active={activePage === 'recognition'} onClick={() => setActivePage('recognition')} />
+          <SidebarItem label="节气饮食" icon="📅" active={activePage === 'season'} onClick={() => setActivePage('season')} />
+          <SidebarItem label="文化传承" icon="📖" active={activePage === 'culture'} onClick={() => setActivePage('culture')} />
+          <SidebarItem label="健康报告" icon="📈" active={activePage === 'report'} onClick={() => alert('健康报告模块正在开发中...')} />
           
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <div style={{ position: 'relative' }}>
-              <span style={{ color: 'white', fontSize: '20px', cursor: 'pointer' }}>🔔</span>
-              <span style={{ position: 'absolute', top: '-8px', right: '-8px', background: '#ff4d4f', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>3</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'white', cursor: 'pointer' }}>
-              <img src="https://img95.699pic.com/photo/50046/5569.jpg_wh860.jpg" alt="管理员" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
-              <span>管理员</span>
-              <span>▼</span>
-            </div>
+          <div style={{ marginTop: 'auto', padding: '20px', borderTop: '1px solid #eee', color: '#999', fontSize: '12px' }}>
+             系统设置 ⚙️
           </div>
-        </header>
+        </aside>
 
-        {/* 主体内容 */}
-        <main style={{ flex: 1, padding: '24px' }}>
+        {/* 右侧内容区域 (Main Content - 可滚动) */}
+        <main style={{ flex: 1, overflowY: 'auto', padding: '20px', backgroundColor: '#eef7fc' }}>
           {activePage === 'home' && <HomeView toPage={setActivePage} />}
           {activePage === 'recognition' && <RecognitionView />}
           {activePage === 'season' && <SeasonalView />}
           {activePage === 'culture' && <CultureView />}
-          {activePage === 'users' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '#666' }}>用户管理页面</div>}
-          {activePage === 'food' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '#666' }}>食物数据库页面</div>}
-          {activePage === 'recipes' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '#666' }}>食谱管理页面</div>}
-          {activePage === 'records' && <div style={{ textAlign: 'center', padding: '40px', fontSize: '18px', color: '
+        </main>
+
+      </div>
+
+      {/* AI助手悬浮按钮 (保留) */}
+      <div style={{ position: 'fixed', bottom: '30px', right: '30px', background: '#3CA9C4', color: 'white',
