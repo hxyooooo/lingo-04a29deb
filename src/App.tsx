@@ -277,12 +277,15 @@ function App() {
   return (
     <div style={{ fontFamily: "'PingFang SC', sans-serif", backgroundColor: '#eef7fc', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
-      {/* 顶部导航 */}
+      {/* 顶部导航 - 修改后的布局 */}
       <header style={{ background: '#1890ff', padding: '0 40px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
-        <div onClick={() => setActivePage('home')} style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}>
+        {/* 左侧标题 */}
+        <div style={{ display: 'flex', alignItems: 'center', color: 'white', fontWeight: 'bold', fontSize: '20px', cursor: 'pointer' }}>
           <span style={{ marginRight: '10px', background: 'white', color: '#1890ff', width: '30px', height: '30px', borderRadius: '50%', textAlign: 'center', lineHeight: '30px', fontSize: '18px' }}>食</span>
           AI健康饮食 · 陕西文化
         </div>
+        
+        {/* 中间导航 */}
         <nav style={{ display: 'flex', gap: '10px' }}>
           <div style={getNavLinkStyle('home')} onClick={() => setActivePage('home')}>🏠 首页</div>
           <div style={getNavLinkStyle('recognition')} onClick={() => setActivePage('recognition')}>📷 AI识食</div>
@@ -290,6 +293,8 @@ function App() {
           <div style={getNavLinkStyle('culture')} onClick={() => setActivePage('culture')}>📖 文化传承</div>
           <div style={getNavLinkStyle('report')} onClick={() => alert('健康报告模块正在开发中...')}>📈 健康报告</div>
         </nav>
+        
+        {/* 右侧登录按钮 */}
         <div>
           <button style={{ background: 'white', color: '#1890ff', border: 'none', padding: '6px 20px', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>登录</button>
         </div>
@@ -312,3 +317,4 @@ function App() {
 }
 
 export default App;
+
